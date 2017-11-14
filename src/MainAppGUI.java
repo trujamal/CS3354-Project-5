@@ -164,7 +164,9 @@ public class MainAppGUI extends JFrame {
                 field.setText("STATUS: in display inventory ...");
                 Thread qThread = new Thread() {
                     public void run() {
+                        mainPanel.setVisible(false);
                         displayInventoryUI();
+                        mainPanel.setVisible(true);
                     }
                 };
                 qThread.start();
@@ -346,6 +348,9 @@ public class MainAppGUI extends JFrame {
       Object[][] data = new Object[db.getPackageListSize()][header.length];
       try {
           // Do something
+
+
+
       }
       catch (ClassCastException e) {
           logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");

@@ -1,14 +1,6 @@
-14/11/2017 12:59:26.018 - [MainAppGUI.<init>] :
+14/11/2017 05:10:23.227 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-14/11/2017 12:59:27.838 - [MainAppGUI$1.actionPerformed] :
+14/11/2017 05:10:41.362 - [MainAppGUI$1.actionPerformed] :
 	[INFO] - User pressed 'Show all existing packages in database'
-14/11/2017 12:59:31.673 - [MainAppGUI.displayInventoryUI] :
+14/11/2017 05:10:46.945 - [MainAppGUI.displayInventoryUI] :
 	[WARNING] - User attempted to view an empty database
-14/11/2017 12:59:59.520 - [MainAppGUI$2.actionPerformed] :
-	[INFO] - Add a new package to the database'
-14/11/2017 12:59:59.620 - [MainAppGUI.addPackageUI] :
-	[INFO] - User in 'Adding Package' window
-14/11/2017 01:00:07.247 - [MainAppGUI$11.actionPerformed] :
-	[INFO] - User pressed 'Exit program'
-14/11/2017 01:00:07.253 - [MainAppGUI.closeOP] :
-	[INFO] - User has closed the program via 'Exit' in main menu, exit successful!
