@@ -1,0 +1,6 @@
+13/11/2017 11:17:41.657 - [MainAppGUI.<init>] :
+	[INFO] - User has loaded main menu of GUI
+13/11/2017 11:22:45.833 - [MainAppGUI$11.actionPerformed] :
+	[INFO] - User pressed 'Exit program'
+13/11/2017 11:22:46.949 - [MainAppGUI$11.actionPerformed] :
+	[INFO] - User pressed 'Exit program'

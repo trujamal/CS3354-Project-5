@@ -1,206 +1,82 @@
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
-import java.awt.Toolkit;
-import com.apple.eawt.Application;
-
 
 /**
-* Main access point
-*/
+ * Main access point
+ * @author Jamal Rasool (J_r771)
+ * @author Zach Sotak (zs1046)
+ * @Version 1.0
+ */
 public class MainApp {
-    
+
     ShippingStore ss;
     private final Scanner sc; // Used to read from System's standard input
-    
+
     /**
      * Constructor
      */
-
     public MainApp() {
         ss = ShippingStore.readDatabase();
         this.sc = new Scanner(System.in);
     }
 
-        public void addComponentsToPane(Container pane) {
-            pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+    /**
+     * This method servers as the main interface between the program and the user.
+     * The method interacts with the user by printing out a set of options, and
+     * asking the user to select one.
+     */
+    public void runSoftware() {
+        int choice = 0;
+        boolean exitProgram = false;
+        do {
+            printMenu();
+            try {
+                choice = sc.nextInt();
 
-            // Declaring Buttons
-            JButton w1 = new JButton("Show All existing packages in the database");
-            JButton w2 = new JButton("Add a new package to the database");
-            JButton w3 = new JButton("Delete a package from a database (given its tracking number)");
-            JButton w4 = new JButton("Search for a package (given its tracking number)");
-            JButton w5 = new JButton("Show list of users");
-            JButton w6 = new JButton("Add a new user to the database");
-            JButton w7 = new JButton("Update user info (given their id)");
-            JButton w8 = new JButton("Deliver a package");
-            JButton w9 = new JButton("Show a list of transactions");
-
-            // Setting Alignment
-            w1.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w2.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w3.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w4.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w5.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w6.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w7.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w8.setAlignmentX(Component.CENTER_ALIGNMENT);
-            w9.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            // Adding buttons
-            pane.add(w1);
-            pane.add(w2);
-            pane.add(w3);
-            pane.add(w4);
-            pane.add(w5);
-            pane.add(w6);
-            pane.add(w7);
-            pane.add(w8);
-            pane.add(w9);
-
-            // Handling Button Output
-
-
-            w1.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 1 was selected");
-                showAllPackages();
-            });
-
-            w2.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 2 was selected");
-                try {
-                    addNewPackage();
-                }catch(Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.PLAIN_MESSAGE);
-                    System.exit(0);
+                switch (choice) {
+                    case 1: showAllPackages(); break;
+                    case 2: addNewPackage(); break;
+                    case 3: deletePackage(); break;
+                    case 4: searchPackage(); break;
+                    case 5: showAllUsers(); break;
+                    case 6: addNewUser(); break;
+                    case 7: updateUser(); break;
+                    case 8: deliverPackage(); break;
+                    case 9: showAllTransactions(); break;
+                    case 10: ss.writeDatabase(); exitProgram = true; break;
+                    default: System.err.println("Please select a number between 1 and 10.");
                 }
-            });
-
-            w3.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 3 was selected");
-                deletePackage();
-            });
-
-            w4.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 4 was selected");
-                searchPackage();
-
-            });
-
-            w5.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 5 was selected");
-                showAllUsers();
-            });
-
-            w6.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 6 was selected");
-                addNewUser();
-            });
-
-            w7.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 7 was selected");
-                try {
-                    updateUser();
-                }catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.PLAIN_MESSAGE);
-                }
-            });
-
-            w8.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 8 was selected");
-                try{
-                    deliverPackage();
-                }catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERROR", JOptionPane.PLAIN_MESSAGE);
-                }
-            });
-
-            w9.addActionListener((ActionEvent v) -> {
-                // do something here
-                System.out.println("Option 9 was selected");
-                showAllTransactions();
-            });
-
-
-
-        }
-
-        /**
-         * Create the GUI and show it.  For thread safety,
-         * this method should be invoked from the
-         * event-dispatching thread.
-         */
-
-        private void createAndShowGUI() {
-            //Create and set up the window.
-            JFrame frame = new JFrame("Shipping Store");
-            frame.setDefaultCloseOperation(closeOP());
-
-            JPanel titlePanel = new JPanel();
-            titlePanel.setBorder(BorderFactory.createTitledBorder("Welcome to the shipping store"));
-            frame.add(titlePanel);
-
-
-            //Set up the content pane.
-            addComponentsToPane(frame.getContentPane());
-
-            // Colors
-            frame.setBackground(Color.LIGHT_GRAY);
-
-            //Display the window.
-            frame.pack();
-            frame.setLocationRelativeTo(null); // Centers Program
-            frame.setVisible(true);
-        }
-
-    public int closeOP()
-    {
-        ss.writeDatabase();
-        return JFrame.EXIT_ON_CLOSE;
+            } catch (InputMismatchException ex) {
+                System.err.println("Input missmatch. Please Try again.");
+                continue;
+            } catch (BadInputException ex) {
+                System.err.println("Bad input. "+ex.getMessage());
+                System.err.println("Please try again.");
+                continue;
+            }
+        } while (!exitProgram);
     }
 
     /**
-    * This method servers as the main interface between the program and the user.
-    * The method interacts with the user by printing out a set of options, and
-    * asking the user to select one.
-    */
-   public void runSoftware() {
-        createAndShowGUI();
-   }
+     * Auxiliary method that prints out the operations menu.
+     */
+    private static void printMenu() {
+        System.out.println(
+                "\n 1. Show all existing packages in the database.\n" +
+                        " 2. Add a new package to the database. \n" +
+                        " 3. Delete a package from a database (given its tracking number).\n" +
+                        " 4. Search for a package (given its tracking number).\n" +
+                        " 5. Show list of users.\n" +
+                        " 6. Add a new user to the database.\n" +
+                        " 7. Update user info (given their id).\n" +
+                        " 8. Deliver a package.\n" +
+                        " 9. Show a list of transactions.\n" +
+                        "10. Exit program.\n");
+    }
 
-   /**
-    * Auxiliary method that prints out the operations menu.
-    */
-   private static void printMenu() {
-       System.out.println(
-               "\n 1. Show all existing packages in the database.\n" +
-               " 2. Add a new package to the database. \n" +
-               " 3. Delete a package from a database (given its tracking number).\n" +
-               " 4. Search for a package (given its tracking number).\n" +
-               " 5. Show list of users.\n" +
-               " 6. Add a new user to the database.\n" +
-               " 7. Update user info (given their id).\n" +
-               " 8. Deliver a package.\n" +
-               " 9. Show a list of transactions.\n" +
-               "10. Exit program.\n");
-   }
-   
-   /**
+    /**
      * This method allows the user to enter a new package to the list
      * database.
-     * @throws shippingstore.BadInputException bad input
+     * @throws BadInputException bad input
      */
     public void addNewPackage() throws BadInputException {
         System.out.println("Select package type:\n"
@@ -271,7 +147,7 @@ public class MainApp {
                 sc.nextLine();
                 throw new BadInputException("Width of Envelope is integer.");
             }
-            
+
             ss.addEnvelope(ptn, specification, mailingClass, height, width);
 
         } else if (packageType == 2) {
@@ -324,7 +200,7 @@ public class MainApp {
             String content = sc.nextLine();
 
             ss.addCrate(ptn, specification, mailingClass, weight, content);
-           
+
         } else if (packageType == 4) {
 
             System.out.println("\nEnter material (Plastic / Fiber): ");
@@ -347,12 +223,12 @@ public class MainApp {
             }
 
             ss.addDrum(ptn, specification, mailingClass, material, diameter);
-            
+
         } else {
             System.out.println("Unknown package type entered. Please try again.");
         }
     }
-    
+
     /**
      * This method prints out all the package currently in the inventory, in a
      * formatted manner.
@@ -360,7 +236,7 @@ public class MainApp {
     public void showAllPackages() {
         System.out.println(ss.getAllPackagesFormatted());
     }
-    
+
     /**
      * This method allows the user to delete a package from the inventory
      * database.
@@ -370,12 +246,12 @@ public class MainApp {
         System.out.print("\nEnter tracking number of pacakge to delete (string): ");
         String ptn = sc.nextLine();
 
-        if (ss.deletePackage(ptn)) 
+        if (ss.deletePackage(ptn))
             System.out.println("Package deleted.");
-        else 
+        else
             System.out.println("Package with given tracking number not found in the database.");
     }
-    
+
     /**
      * This method allows the users to search for a package given its tracking number
      * and then it prints details about the package.
@@ -390,14 +266,14 @@ public class MainApp {
         else
             System.out.println("Package with PTN " + ptn + " not found in the database");
     }
-    
+
     /**
      * Prints out a list of all users in the database.
      */
     public void showAllUsers() {
         System.out.println(ss.getAllUsersFormatted());
     }
-    
+
     /**
      * This method allows a new user to be added to the database.
      *
@@ -512,12 +388,12 @@ public class MainApp {
         }
 
     }
-    
+
     /**
      * This method can be used to update a user's information, given their user
      * ID.
      *
-     * @throws shippingstore.BadInputException
+     * @throws BadInputException
      */
     public void updateUser() throws BadInputException {
         boolean check = false;
@@ -541,7 +417,7 @@ public class MainApp {
             String phoneNumber = sc.nextLine();
             System.out.print("\nEnter address (string): ");
             String address = sc.nextLine();
-            
+
             ss.updateCustomer(userID, firstName, lastName, phoneNumber, address);
 
         } else { //User is an employee
@@ -608,11 +484,11 @@ public class MainApp {
             ss.updateEmployee(userID, firstName, lastName, ssn, monthlySalary, bankAccNumber);
         }
     }
-    
+
     /**
      * This method is used to complete a package shipping/delivery transaction.
      *
-     * @throws shippingstore.BadInputException
+     * @throws BadInputException
      */
     public void deliverPackage() throws BadInputException {
 
@@ -667,8 +543,8 @@ public class MainApp {
 
         System.out.println("\nTransaction Completed!");
     }
-    
-    
+
+
     /**
      * Prints out a list of all recorded transactions.
      */
