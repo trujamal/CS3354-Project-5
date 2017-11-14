@@ -293,7 +293,12 @@ public class MainAppGUI extends JFrame {
                 logger.log(Level.INFO, "User pressed 'Exit program'");
                 Thread qThread = new Thread() {
                     public void run() {
-                        closeOP();
+                        try {
+                            closeOP();
+                        }catch (Exception e) {
+                            logger.log(Level.SEVERE,e.toString());
+                            System.exit(0);
+                        }
                     }
                 };
                 qThread.start();
@@ -355,8 +360,25 @@ public class MainAppGUI extends JFrame {
         });
     }
 
-    public int closeOP() {
-        ss.writeDatabase();
+    /**
+     * The function ClosesOP is designed to close out of the program, and save the information that was changed or
+     * modified within the program into a serializable fil.
+     * @return returns value of 3 to close the program, this should never return a value, if it does a SEVERE error has
+     * occurred.
+     * @throws Exception The exception in this case is to handle if the closing of the program fails and, allows the
+     * program to still run.
+     */
+    public int closeOP() throws Exception {
+        try {
+            db.writeDatabase();
+            logger.log(Level.INFO, "User has closed the program via 'Exit' in main menu, exit successful!");
+
+            System.exit(0);
+            return JFrame.EXIT_ON_CLOSE;
+        } catch (Exception e){
+            System.out.println("PROGRAM SHOULD NEVER REACH THIS POINT UNDERNEATH ANY CIRCUMSTANCE");
+            logger.log(Level.SEVERE,e.toString());
+        }
         return JFrame.EXIT_ON_CLOSE;
     }
 }
