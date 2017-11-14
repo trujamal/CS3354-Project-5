@@ -40,6 +40,16 @@ public class ShippingStore {
     }
 
     /**
+     * Get Package List Size is designed to return the size of the list.
+     * @return Returns the array size of the package list
+     */
+    public int getPackageListSize() {return packageList.size();}
+
+    public Package getPackageAtPostion(int i) {
+        return packageList.get(i);
+    }
+
+    /**
      *
      * @param Counter
      */

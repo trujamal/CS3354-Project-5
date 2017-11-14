@@ -329,11 +329,121 @@ public class MainAppGUI extends JFrame {
         logger.log(Level.INFO, "User has loaded main menu of GUI");
     }
 
-    public void displayInventoryUI() {}
+    public void displayInventoryUI() {
 
-    public void addPackageUI() {}
 
-    public void deletePackageUI() {}
+
+      if (db.getPackageListSize() == 0) {
+          JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                          " is currently empty! Now exiting..", "Failure!",
+                  JOptionPane.ERROR_MESSAGE);
+          logger.log(Level.WARNING, "User attempted to view an empty database");
+          return;
+      }
+
+      // Implement right header
+      String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
+      Object[][] data = new Object[db.getPackageListSize()][header.length];
+      try {
+          // Do something
+      }
+      catch (ClassCastException e) {
+          logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+      }
+      catch (Exception e) {
+          logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+          e.printStackTrace();
+      }
+
+      JFrame display = new JFrame("Inventory List");
+      final JTable table = new JTable(data, header);
+      table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+      table.setFillsViewportHeight(true);
+      table.setEnabled(false);
+
+      JScrollPane scrollPane = new JScrollPane(table);
+      display.add(scrollPane);
+
+      display.pack();
+      display.setVisible(true);
+      display.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+      logger.log(Level.INFO, "User in 'Package List' window");
+    }
+
+    // Havent implemented yet
+    //TODO: 11/14/17 IMPLEMENT EVERYTHING BELOW
+    public void addPackageUI() {
+        JFrame frame = new JFrame("Adding package");
+              frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+              //Display the window.
+              frame.pack();
+              frame.setVisible(true);
+
+              logger.log(Level.INFO, "User in 'Adding Package' window");
+    }
+
+    public void deletePackageUI() {
+      JFrame frame = new JFrame("Deleting Package");
+
+      if (db.getPackageListSize() == 0) {
+          JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
+                          " is currently empty! Now exiting removal process..", "Failure!",
+                  JOptionPane.ERROR_MESSAGE);
+          logger.log(Level.WARNING, "User attempted to view an empty list (vehicles)");
+          return;
+      }
+
+      JPanel panel = new JPanel();
+      JLabel instr = new JLabel("Enter the vehicle's VIN (to be deleted): ");
+      JTextField VIN = new JTextField(12);
+      JButton submit = new JButton("Submit");
+      JButton exit = new JButton("Exit");
+
+      frame.setContentPane(panel);
+      panel.add(instr);
+      panel.add(VIN);
+      panel.add(submit);
+      panel.add(exit);
+
+      submit.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent ev) {
+              logger.log(Level.INFO, "User submitted a VIN (string)");
+              Thread qThread = new Thread() {
+                  public void run() {
+                      if (db.deletePackage(VIN.getText())) {
+                          JOptionPane.showMessageDialog(frame, "Removal was successful!", "Success!",
+                                  JOptionPane.INFORMATION_MESSAGE);
+                          logger.log(Level.INFO, "User was able to remove a vehicle via string value");
+                      }
+                      else {
+                          JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
+                                          " and try again!", "Failure!",
+                                  JOptionPane.ERROR_MESSAGE);
+                          logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
+                                  "database");
+                      }
+                  }
+              };
+              qThread.start();
+          }
+      });
+
+      exit.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent ev) {
+              frame.dispose();
+              logger.log(Level.INFO, "User presses 'Exit' button");
+          }
+      });
+
+
+      //Display the window.
+      frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+      frame.pack();
+      frame.setVisible(true);
+      logger.log(Level.INFO, "User opened up GUI option to delete a vehicle");
+
+    }
 
     public void searchPackUI() {}
 
