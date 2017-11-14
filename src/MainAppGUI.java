@@ -331,6 +331,7 @@ public class MainAppGUI extends JFrame {
         logger.log(Level.INFO, "User has loaded main menu of GUI");
     }
 
+    // Jamal
     public void displayInventoryUI() {
 
 
@@ -377,6 +378,7 @@ public class MainAppGUI extends JFrame {
 
     // Havent implemented yet
     //TODO: 11/14/17 IMPLEMENT EVERYTHING BELOW
+    // Jamal
     public void addPackageUI() {
         JFrame frame = new JFrame("Adding package");
               frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -388,6 +390,7 @@ public class MainAppGUI extends JFrame {
               logger.log(Level.INFO, "User in 'Adding Package' window");
     }
 
+// Jamal
     public void deletePackageUI() {
       JFrame frame = new JFrame("Deleting Package");
 
@@ -450,18 +453,25 @@ public class MainAppGUI extends JFrame {
 
     }
 
+    // Maria
     public void searchPackUI() {}
 
+    // Maria
     public void listUsersUI() {}
 
+    // Zach
     public void addUserUI() {}
 
+    // zach
     public void updateUserInfoUI() {}
 
+    // Krisof
     public void deliverPackageUI() {}
 
+    // Kristof
     public void showListOfTransactionsUI() {}
 
+    // ?
     public void showAllCompletedTransactionsUI() {}
 
     /**
