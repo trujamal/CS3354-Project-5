@@ -23,6 +23,7 @@ public class ShippingStore {
         this.packageList = new ArrayList<Package>();
         this.users = new ArrayList<User>();
         this.transactions = new ArrayList<Transaction>();
+
     }
 
     /**
@@ -43,11 +44,8 @@ public class ShippingStore {
      * Get Package List Size is designed to return the size of the list.
      * @return Returns the array size of the package list
      */
-    public int getPackageListSize() {return packageList.size();}
 
-    public Package getPackageAtPostion(int i) {
-        return packageList.get(i);
-    }
+    public List<Package> getPackageList() { return packageList;}
 
     /**
      *
@@ -56,7 +54,10 @@ public class ShippingStore {
     public void setUserIdCounter(int Counter) {
         this.userIdCounter = Counter;
     }
-    
+
+    public void getExtraInfo() {
+        
+    }
         /**
      * Auxiliary method used to find a package in the database, given its
      * tracking number.
@@ -72,6 +73,7 @@ public class ShippingStore {
         }
         return null;
     }
+
 
     /**
      * Returns true if the package exists in the database.
@@ -96,7 +98,7 @@ public class ShippingStore {
         Envelope env = new Envelope(ptn, specification, mailingClass, height, width);
         packageList.add(env);
     }
-    
+
     /**
      *
      * @param ptn
