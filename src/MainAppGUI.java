@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.*;
 import java.util.Scanner;
+
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  * @author Jamal Rasool (j_r771)
@@ -338,7 +341,7 @@ public class MainAppGUI extends JFrame {
       if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
                           " is currently empty! Now exiting..", "Failure!",
-                  JOptionPane.ERROR_MESSAGE);
+                  ERROR_MESSAGE);
           logger.log(Level.WARNING, "User attempted to view an empty database");
           return;
       }
@@ -405,7 +408,7 @@ public class MainAppGUI extends JFrame {
       if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
                           " is currently empty! Now exiting removal process..", "Failure!",
-                  JOptionPane.ERROR_MESSAGE);
+                  ERROR_MESSAGE);
           logger.log(Level.WARNING, "User attempted to view an empty list (vehicles)");
           return;
       }
@@ -435,7 +438,7 @@ public class MainAppGUI extends JFrame {
                       else {
                           JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
                                           " and try again!", "Failure!",
-                                  JOptionPane.ERROR_MESSAGE);
+                                  ERROR_MESSAGE);
                           logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
                                   "database");
                       }
@@ -463,34 +466,50 @@ public class MainAppGUI extends JFrame {
 
     // Maria
     private void searchPackUI() {
-        Scanner in = new Scanner(System.in);
-        String query;
+    JFrame frame = new JFrame("Searching Package");
+
+      if (db.getPackageList().size() == 0) {
+              JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                              " is currently empty! Now exiting..", "Failure!",
+                      ERROR_MESSAGE);
+        logger.log(Level.WARNING, "User attempted to view an empty list (Packages)");
+        return;
+    }
+
+      JPanel panel = new JPanel();
+      JLabel instr = new JLabel("Enter the Package's tracking number: ");
+      JTextField TrackingNumber = new JTextField(12);
+      JButton submit = new JButton("Submit");
+      JButton exit = new JButton("Exit");
+
+        frame.setContentPane(panel);
+        panel.add(instr);
+        panel.add(TrackingNumber);
+        panel.add(submit);
+        panel.add(exit);
+
+       /** Scanner in = new Scanner(System.in);
+       // AtomicReference<String> query = new AtomicReference<String>();
         boolean found = false;
 
 
-        if (db.getPackageListSize() == 0) {
+        if (db.getPackageList().isEmpty())
             System.err.println("The database is currently empty");
-
+        else
             System.out.println("\nPlease enter the Tracking Number of the Package you wish to see:");
-            query = in.nextLine();
+            String query = db.nextLine();
+        // for (int i = 0; i < db.getPackageListSize(); ++i) {
+         true == db.findPackage(query.get());
 
+        if (found)
+            System.out.println("\nPackage has been found!");
 
-            // for (int i = 0; i < db.getPackageListSize(); ++i) {
-            if (query.equalsIgnoreCase(String.valueOf(db.findPackage(query)))) {
-                found = true;
-            } else {
-                found = false;
-            }
-
-            if (found)
-                System.out.println("\nPackage has been found!");
-
-            else
-                System.out.println("\nPackage not found in the database.");
-        }
+        else
+            System.out.println("\nPackage not found in the database.");
     }
 
-
+     */
+    }
     // Maria
     public void listUsersUI() {}
 
