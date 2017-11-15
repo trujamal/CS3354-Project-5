@@ -1,6 +1,4 @@
-14/11/2017 05:35:24.900 - [MainAppGUI.<init>] :
+14/11/2017 07:15:25.804 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-14/11/2017 05:35:27.221 - [MainAppGUI$1.actionPerformed] :
-	[INFO] - User pressed 'Show all existing packages in database'
-14/11/2017 05:35:27.357 - [MainAppGUI.displayInventoryUI] :
-	[INFO] - User in 'Package List' window
+14/11/2017 07:15:29.982 - [MainAppGUI$4.actionPerformed] :
+	[INFO] - User pressed 'Search for a package'

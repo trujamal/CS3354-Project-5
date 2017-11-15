@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.*;
+import java.util.Scanner;
 
 /**
  * @author Jamal Rasool (j_r771)
@@ -454,7 +455,34 @@ public class MainAppGUI extends JFrame {
     }
 
     // Maria
-    public void searchPackUI() {}
+    private void searchPackUI() {
+        Scanner in = new Scanner(System.in);
+        String query;
+        boolean found = false;
+
+
+        if (db.getPackageListSize() == 0) {
+            System.err.println("The database is currently empty");
+
+            System.out.println("\nPlease enter the Tracking Number of the Package you wish to see:");
+            query = in.nextLine();
+
+
+            // for (int i = 0; i < db.getPackageListSize(); ++i) {
+            if (query.equalsIgnoreCase(String.valueOf(db.findPackage(query)))) {
+                found = true;
+            } else {
+                found = false;
+            }
+
+            if (found)
+                System.out.println("\nPackage has been found!");
+
+            else
+                System.out.println("\nPackage not found in the database.");
+        }
+    }
+
 
     // Maria
     public void listUsersUI() {}

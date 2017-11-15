@@ -108,4 +108,5 @@ public abstract class Package implements Serializable {
      * @return the text describing the package in a formatted manner.
      */
     public abstract String getFormattedText();
+
 }
