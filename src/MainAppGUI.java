@@ -335,9 +335,7 @@ public class MainAppGUI extends JFrame {
     // Jamal
     public void displayInventoryUI() {
 
-
-
-      if (db.getPackageListSize() == 0) {
+      if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
                           " is currently empty! Now exiting..", "Failure!",
                   JOptionPane.ERROR_MESSAGE);
@@ -347,12 +345,21 @@ public class MainAppGUI extends JFrame {
 
       // Implement right header
       String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
-      Object[][] data = new Object[db.getPackageListSize()][header.length];
+      Object[][] data = new Object[db.getPackageList().size()][header.length];
       try {
           // Do something
+          for (int i = 0; i < db.getPackageList().size(); ++i) {
 
+              String intialText = db.getPackageList().get(i).toString();
+              String finalText = "";
 
+              data[i][0] = db.getPackageList().get(i).getClass().getName();
+              data[i][1] = db.getPackageList().get(i).ptn;
+              data[i][2] = db.getPackageList().get(i).specification;
+              data[i][3] = db.getPackageList().get(i).mailingClass.toString();
+              data[i][4] = db.getPackageList().get(i).toString();
 
+          }
       }
       catch (ClassCastException e) {
           logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
@@ -395,7 +402,7 @@ public class MainAppGUI extends JFrame {
     public void deletePackageUI() {
       JFrame frame = new JFrame("Deleting Package");
 
-      if (db.getPackageListSize() == 0) {
+      if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
                           " is currently empty! Now exiting removal process..", "Failure!",
                   JOptionPane.ERROR_MESSAGE);
