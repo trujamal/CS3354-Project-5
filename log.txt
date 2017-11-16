@@ -1,4 +1,12 @@
-14/11/2017 07:48:54.104 - [MainAppGUI.<init>] :
+16/11/2017 01:28:47.642 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-14/11/2017 07:48:55.669 - [MainAppGUI$4.actionPerformed] :
+16/11/2017 01:28:52.596 - [MainAppGUI$4.actionPerformed] :
 	[INFO] - User pressed 'Search for a package'
+16/11/2017 01:28:52.683 - [MainAppGUI.searchPackUI] :
+	[INFO] - User opened up GUI option to search a package
+16/11/2017 01:28:58.784 - [MainAppGUI$14.actionPerformed] :
+	[INFO] - User submitted a tracking number for package
+16/11/2017 01:28:58.964 - [MainAppGUI$14$1.run] :
+	[INFO] - User in 'Package List' window
+16/11/2017 01:29:06.353 - [MainAppGUI$15.actionPerformed] :
+	[INFO] - User presses 'Exit' button
