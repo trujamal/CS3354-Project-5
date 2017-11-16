@@ -459,53 +459,165 @@ public class MainAppGUI extends JFrame {
 
     // Maria
     private void searchPackUI() {
-    JFrame frame = new JFrame("Searching Package");
 
-      if (db.getPackageList().size() == 0) {
-              JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
-                              " is currently empty! Now exiting..", "Failure!",
-                      ERROR_MESSAGE);
-        logger.log(Level.WARNING, "User attempted to view an empty list (Packages)");
-        return;
+        JFrame frame1 = new JFrame("Searching Package");
+
+        if (db.getPackageList().size() == 0) {
+            JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                            " is currently empty! Now exiting..", "Failure!",
+                    ERROR_MESSAGE);
+            logger.log(Level.WARNING, "User attempted to view an empty list (Packages)");
+            return;
+        }
+
+        JPanel searchpanel = new JPanel();
+        JLabel searchfield = new JLabel("Enter the Package's tracking number:  ");
+        JTextField trackingno = new JTextField(12);
+        JButton submit = new JButton("Submit");
+        JButton exit = new JButton("Exit");
+
+        frame1.setContentPane(searchpanel);
+        searchpanel.add(searchfield);
+        searchpanel.add(trackingno);
+        searchpanel.add(submit);
+        searchpanel.add(exit);
+        searchpanel.setVisible(true);
+
+
+        submit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                logger.log(Level.INFO, "User submitted a tracking number for package");
+                Thread qThread = new Thread() {
+                    public void run() {
+                        if (db.packageExists(trackingno.getText())) {
+                            JFrame display = new JFrame("Inventory List");
+
+                            if (db.getPackageList().size() == 0) {
+                                JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                                                " is currently empty! Now exiting..", "Failure!",
+                                        ERROR_MESSAGE);
+                                logger.log(Level.WARNING, "User attempted to view an empty database");
+                                return;
+                            }
+
+                            // Implement right header
+                            String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
+                            Object[][] data = new Object[db.getPackageList().size()][header.length];
+                            try {
+                                // Do something
+                                for (int i = 0; i < db.getPackageList().size(); ++i) {
+
+                                    String intialText = db.getPackageList().get(i).toString();
+                                    String finalText = "";
+                                    System.out.println(trackingno.getText());
+                                    System.out.println(db.getPackageList().get(i).ptn);
+                                    if(db.getPackageList().get(i).ptn.equals(trackingno.getText())){
+                                        System.out.println("GO");
+                                        data[i][0] = db.getPackageList().get(i).getClass().getName();
+                                        data[i][1] = db.getPackageList().get(i).ptn;
+                                        data[i][2] = db.getPackageList().get(i).specification;
+                                        data[i][3] = db.getPackageList().get(i).mailingClass.toString();
+                                        data[i][4] = db.getPackageList().get(i).toString();
+
+                                        break;
+                                    }
+                                }
+                            }
+                            catch (ClassCastException e) {
+                                logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+                            }
+                            catch (Exception e) {
+                                logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+                                e.printStackTrace();
+                            }
+                            final JTable table = new JTable(data, header);
+                            table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+                            table.setFillsViewportHeight(true);
+                            table.setEnabled(false);
+
+                            JScrollPane scrollPane = new JScrollPane(table);
+                            display.add(scrollPane);
+
+                            display.pack();
+                            display.setVisible(true);
+                            display.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                            logger.log(Level.INFO, "User in 'Package List' window");
+
+
+
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Package not found in database");
+                            logger.log(Level.INFO, "User's search term was not found in the" +
+                                    "database");
+                        }
+                    }
+                };
+                qThread.start();
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                frame1.dispose();
+                logger.log(Level.INFO, "User presses 'Exit' button");
+            }
+        });
+
+
+
+        //Display the window.
+        frame1.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame1.pack();
+        frame1.setVisible(true);
+        searchpanel.setVisible(true);
+        logger.log(Level.INFO, "User opened up GUI option to search a package");
+
     }
 
-      JPanel panel = new JPanel();
-      JLabel instr = new JLabel("Enter the Package's tracking number: ");
-      JTextField TrackingNumber = new JTextField(12);
-      JButton submit = new JButton("Submit");
-      JButton exit = new JButton("Exit");
-
-        frame.setContentPane(panel);
-        panel.add(instr);
-        panel.add(TrackingNumber);
-        panel.add(submit);
-        panel.add(exit);
-
-       /** Scanner in = new Scanner(System.in);
-       // AtomicReference<String> query = new AtomicReference<String>();
-        boolean found = false;
-
-
-        if (db.getPackageList().isEmpty())
-            System.err.println("The database is currently empty");
-        else
-            System.out.println("\nPlease enter the Tracking Number of the Package you wish to see:");
-            String query = db.nextLine();
-        // for (int i = 0; i < db.getPackageListSize(); ++i) {
-         true == db.findPackage(query.get());
-
-        if (found)
-            System.out.println("\nPackage has been found!");
-
-        else
-            System.out.println("\nPackage not found in the database.");
-    }
-
-     */
-    }
     // Maria
-    public void listUsersUI() {}
+    // Completed
+    public void listUsersUI() {
+        JFrame frame2 = new JFrame("User List");
 
+        String[] header = {"USER TYPE", "USER ID", "FIRST NAME", "LAST NAME", "OTHER DETAILS"};
+        Object[][] data = new Object[db.getUserList().size()][header.length];
+        try {
+            // Do something
+            for (int i = 0; i < db.getUserList().size(); ++i) {
+
+                String intialText = db.getUserList().get(i).toString();
+                String finalText = "";
+                System.out.println("GO");
+                data[i][0] = db.getUserList().get(i).getClass().getName();
+                data[i][1] = db.getUserList().get(i).getId();
+                data[i][2] = db.getUserList().get(i).getFirstName();
+                data[i][3] = db.getUserList().get(i).getLastName();
+                data[i][4] = db.getUserList().get(i).toString();
+
+            }
+        }
+        catch (ClassCastException e) {
+            logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+            e.printStackTrace();
+        }
+        final JTable table = new JTable(data, header);
+        table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        table.setFillsViewportHeight(true);
+        table.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame2.add(scrollPane);
+
+        frame2.pack();
+        frame2.setVisible(true);
+        frame2.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        logger.log(Level.INFO, "User in 'User List' window");
+
+    }
     // Zach
     public void addUserUI() {}
 
@@ -520,8 +632,50 @@ public class MainAppGUI extends JFrame {
     // Kristof
     public void showListOfTransactionsUI() {}
 
-    // ?
-    public void showAllCompletedTransactionsUI() {}
+    //
+    public void showAllCompletedTransactionsUI() {
+        //Completed
+        JFrame frame2 = new JFrame("Transaction List");
+
+        String[] header = {"CUSTOMER ID", "EMPLOYEE ID", "PTN", "SHIPPING DATE", "DELIVERY DATE", "PRICE"};
+        Object[][] data = new Object[db.getTransactionList().size()][header.length];
+        try {
+            // Do something
+            for (int i = 0; i < db.getTransactionList().size(); ++i) {
+
+                String intialText = db.getTransactionList().get(i).toString();
+                String finalText = "";
+                System.out.println("GO");
+                data[i][0] = db.getTransactionList().get(i).getCustomerId();
+                data[i][1] = db.getTransactionList().get(i).getEmployeeId();
+                data[i][2] = db.getTransactionList().get(i).getPtn();
+                data[i][3] = db.getTransactionList().get(i).getShippingDate();
+                data[i][4] = db.getTransactionList().get(i).getDeliveryDate();
+                data[i][5] = db.getTransactionList().get(i).getPrice();
+
+            }
+        }
+        catch (ClassCastException e) {
+            logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+            e.printStackTrace();
+        }
+        final JTable table = new JTable(data, header);
+        table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        table.setFillsViewportHeight(true);
+        table.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame2.add(scrollPane);
+
+        frame2.pack();
+        frame2.setVisible(true);
+        frame2.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        logger.log(Level.INFO, "User in 'All Transaction List' window");
+
+    }
 
     /**
      * main() is the initializer and executes the GUI on an EDT as opposed to the main thread
