@@ -116,7 +116,7 @@ public class MainAppGUI extends JFrame {
 
         // Creating a new panel to house the buttons within
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new GridLayout(10, 0));
+        JPanel buttonPanel = new JPanel(new GridLayout(11, 0));
         JLabel introText = new JLabel("\n\nPlease select an option below:");
         JTextField field = new JTextField(35);
         introText.setHorizontalAlignment(SwingConstants.CENTER);
@@ -322,6 +322,7 @@ public class MainAppGUI extends JFrame {
         buttonPanel.add(addPackage);
         buttonPanel.add(delPack);
         buttonPanel.add(searchPack);
+        buttonPanel.add(listUsers);
         buttonPanel.add(deliverPackage);
         buttonPanel.add(addUser);
         buttonPanel.add(updateUserInfo);
@@ -685,8 +686,8 @@ public class MainAppGUI extends JFrame {
                     JButton sub_submit = new JButton("Submit Changes");
                     JLabel phoneNum = new JLabel("Phone Number: ");
                     JTextField phoneNumb = new JTextField(12);
-                    JLabel dlNum = new JLabel("Customers Address: ");
-                    JTextField dlNumb = new JTextField(12);
+                    JLabel uAdd = new JLabel("Customers Address: ");
+                    JTextField uAddress = new JTextField(12);
                     JLabel salary = new JLabel("Monthly Salary: ");
                     JTextField salaryTF = new JTextField(12);
                     JLabel bank = new JLabel("Bank Account #: ");
@@ -700,13 +701,13 @@ public class MainAppGUI extends JFrame {
 
                     if (temp instanceof Customer) {
                         phoneNumb.setText(((Customer) temp).getPhoneNumber());
-                        dlNumb.setText((((Customer) temp).getAddress()));
+                        uAddress.setText((((Customer) temp).getAddress()));
                         type.setText("Type: Customer");
 
                         subpanel.add(phoneNum);
                         subpanel.add(phoneNumb);
-                        subpanel.add(dlNum);
-                        subpanel.add(dlNumb);
+                        subpanel.add(uAdd);
+                        subpanel.add(uAddress);
                     }
                     else {
                         salaryTF.setText(Float.toString(((Employee) temp).getMonthlySalary()));
@@ -733,7 +734,7 @@ public class MainAppGUI extends JFrame {
                             temp.setLastName(lastname.getText());
                             if (temp instanceof Customer) {
                                 ((Customer)temp).setPhoneNumber(phoneNumb.getText());
-                                ((Customer)temp).setAddress((dlNumb.getText()));
+                                ((Customer)temp).setAddress((uAddress.getText()));
                             }
                             else {
                                 ((Employee)temp).setMonthlySalary(Float.parseFloat(salaryTF.getText()));
@@ -831,7 +832,7 @@ public class MainAppGUI extends JFrame {
         JTextField cPhoneTF = new JTextField("", 12);
         card1.add(cPhone);
         card1.add(cPhoneTF);
-        JLabel cDLN = new JLabel("Driver's Address");
+        JLabel cDLN = new JLabel("Customer's Address (String)");
         JTextField cDLNTF = new JTextField("", 12);
         card1.add(cDLN);
         card1.add(cDLNTF);
@@ -966,7 +967,7 @@ public class MainAppGUI extends JFrame {
         JTextField eLNameTF = new JTextField("", 12);
         card2.add(eLName);
         card2.add(eLNameTF);
-        JLabel eSSN = new JLabel("Social Security Number");
+        JLabel eSSN = new JLabel("Social Security Number (int)");
         JTextField eSSNTF = new JTextField("", 12);
         card2.add(eSSN);
         card2.add(eSSNTF);
