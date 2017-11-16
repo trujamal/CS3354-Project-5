@@ -169,7 +169,7 @@ public class MainAppGUI extends JFrame {
         showExisting.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show all existing packages in database'");
-                field.setText("STATUS: in display inventory ...");
+                field.setText("STATUS: display inventory ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         displayInventoryUI();
@@ -182,7 +182,7 @@ public class MainAppGUI extends JFrame {
         addPackage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "Add a new package to the database'");
-                field.setText("STATUS: in adding package ...");
+                field.setText("STATUS: adding new package ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         addPackageUI();
@@ -195,7 +195,7 @@ public class MainAppGUI extends JFrame {
         delPack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Delete a package from the database'");
-                field.setText("STATUS: in deleting package ...");
+                field.setText("STATUS: deleting package ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         deletePackageUI();
@@ -208,7 +208,7 @@ public class MainAppGUI extends JFrame {
         searchPack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Search for a package'");
-                field.setText("STATUS: in searching inventory ...");
+                field.setText("STATUS: searching inventory ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         searchPackUI();
@@ -221,7 +221,7 @@ public class MainAppGUI extends JFrame {
         listUsers.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show list of users'");
-                field.setText("STATUS: in listing users...");
+                field.setText("STATUS: listing users...");
                 Thread qThread = new Thread() {
                     public void run() {
                         listUsersUI();
@@ -234,7 +234,7 @@ public class MainAppGUI extends JFrame {
         addUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Add a new user to the database'");
-                field.setText("STATUS: in add user to database ...");
+                field.setText("STATUS: adding user to database ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         addUserUI();
@@ -247,7 +247,7 @@ public class MainAppGUI extends JFrame {
         updateUserInfo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Update user info (given their id)'");
-                field.setText("STATUS: adding user ...");
+                field.setText("STATUS: Updating user ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         updateUserInfoUI();
@@ -273,7 +273,7 @@ public class MainAppGUI extends JFrame {
         showListTransaction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show a list of transactions'");
-                field.setText("STATUS: deleting package ...");
+                field.setText("STATUS: Showing list of transaction ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         showListOfTransactionsUI();
@@ -286,7 +286,7 @@ public class MainAppGUI extends JFrame {
         showAllCompletedTransactions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show a list of completed shipping transactions'");
-                field.setText("STATUS: showing transactions ...");
+                field.setText("STATUS: Showing completed transactions ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         showAllCompletedTransactionsUI();
@@ -500,13 +500,6 @@ public class MainAppGUI extends JFrame {
                         if (db.packageExists(trackingno.getText())) {
                             JFrame display = new JFrame("Inventory List");
 
-                            if (db.getPackageList().size() == 0) {
-                                JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
-                                                " is currently empty! Now exiting..", "Failure!",
-                                        ERROR_MESSAGE);
-                                logger.log(Level.WARNING, "User attempted to view an empty database");
-                                return;
-                            }
 
                             // Implement right header
                             String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};

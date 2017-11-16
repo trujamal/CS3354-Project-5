@@ -1,2 +1,14 @@
-16/11/2017 03:45:40.323 - [MainAppGUI.<init>] :
+16/11/2017 03:57:08.980 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
+16/11/2017 03:57:11.764 - [MainAppGUI$7.actionPerformed] :
+	[INFO] - User pressed 'Update user info (given their id)'
+16/11/2017 03:57:11.779 - [MainAppGUI.updateUserInfoUI] :
+	[INFO] - User entered 'Update User' operation
+16/11/2017 03:57:14.968 - [MainAppGUI$9.actionPerformed] :
+	[INFO] - User pressed 'Show a list of transactions'
+16/11/2017 03:57:19.539 - [MainAppGUI$10.actionPerformed] :
+	[INFO] - User pressed 'Show a list of completed shipping transactions'
+16/11/2017 03:57:19.570 - [MainAppGUI.showAllCompletedTransactionsUI] :
+	[INFO] - User in 'All Transaction List' window
+16/11/2017 03:57:23.134 - [MainAppGUI$9.actionPerformed] :
+	[INFO] - User pressed 'Show a list of transactions'
