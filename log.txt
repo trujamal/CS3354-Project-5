@@ -1,4 +1,14 @@
-14/11/2017 07:48:54.104 - [MainAppGUI.<init>] :
+16/11/2017 02:27:15.348 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-14/11/2017 07:48:55.669 - [MainAppGUI$4.actionPerformed] :
-	[INFO] - User pressed 'Search for a package'
+16/11/2017 02:27:17.973 - [MainAppGUI$6.actionPerformed] :
+	[INFO] - User pressed 'Add a new user to the database'
+16/11/2017 02:27:18.082 - [MainAppGUI.addUserUI] :
+	[INFO] - User has entered 'Adding new user'
+16/11/2017 02:27:43.187 - [MainAppGUI$7.actionPerformed] :
+	[INFO] - User pressed 'Update user info (given their id)'
+16/11/2017 02:27:43.202 - [MainAppGUI.updateUserInfoUI] :
+	[INFO] - User entered 'Update User' operation
+16/11/2017 02:27:52.245 - [MainAppGUI$6.actionPerformed] :
+	[INFO] - User pressed 'Add a new user to the database'
+16/11/2017 02:27:52.261 - [MainAppGUI.addUserUI] :
+	[INFO] - User has entered 'Adding new user'
