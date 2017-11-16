@@ -352,15 +352,8 @@ public class MainAppGUI extends JFrame {
       try {
           // Do something
           for (int i = 0; i < db.getPackageList().size(); ++i) {
-
-              String intialText = db.getPackageList().get(i).toString();
-              String finalText = "";
-
-              data[i][0] = db.getPackageList().get(i).getClass().getName();
-              data[i][1] = db.getPackageList().get(i).ptn;
-              data[i][2] = db.getPackageList().get(i).specification;
-              data[i][3] = db.getPackageList().get(i).mailingClass.toString();
-              data[i][4] = db.getPackageList().get(i).toString();
+              for (int  j = 0; i < db.getPackageList().size(); i++)
+                  data[i][j] = db.getPackageList().get(i).display();
 
           }
       }
@@ -520,7 +513,9 @@ public class MainAppGUI extends JFrame {
     public void updateUserInfoUI() {}
 
     // Krisof
-    public void deliverPackageUI() {}
+    public void deliverPackageUI() {
+
+    }
 
     // Kristof
     public void showListOfTransactionsUI() {}

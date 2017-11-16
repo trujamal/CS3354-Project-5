@@ -84,4 +84,8 @@ public class Box extends Package {
                 ", Mailing Class=" + mailingClass + ", height=" + dimension +
                 ", volume=" + volume + '}';
     }
+
+    public void display() {
+        System.out.printf("Box", getPtn(), getSpecification(), getMailingClass(), getDimension(), getVolume());
+    }
 }

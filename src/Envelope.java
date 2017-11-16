@@ -84,4 +84,8 @@ public class Envelope extends Package {
                 ", Mailing Class=" + mailingClass + ", height=" + height +
                 ", width=" + width + '}';
     }
+
+    public void display() {
+        System.out.printf("Envelope", getPtn(), getSpecification(), getMailingClass(), getHeight(), getWidth());
+    }
 }
