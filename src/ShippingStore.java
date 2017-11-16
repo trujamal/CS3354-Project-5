@@ -13,7 +13,7 @@ public class ShippingStore {
     private final List<User> users;
     private final List<Transaction> transactions;
 
-    private int userIdCounter = 1;
+    protected int userIdCounter = 1;
 
     /**
      * Default constructor. Initializes the inventory, users, and transactions
@@ -462,6 +462,33 @@ public class ShippingStore {
         }
         System.out.println("Done.");
     }
+    /**
+     * getUserDatabaseSize() is a helper function for the GUI, returns the users.size()
+     * @return an int, users.size()
+     */
+    public int getUserDatabaseSize() {
+        return users.size();
+    }
+
+    /**
+     * getUserAtPosition() returns the User object at position i. It is guaranteed that i will not be greater than, less
+     * than, or equal to size of users.
+     * @param i, the position at which is requested
+     * @return a User object, users.get(i)
+     */
+    public User getUserAtPosition(int i) {
+        return users.get(i);
+    }
+
+    /**
+     * addUserDirectly() is a helper method to the GUI and adds a User obj directly to users
+     * @param obj of User datatype
+     * @return true if users.add(obj) is successful, false otherwise
+     */
+    public boolean addUserDirectly(User obj) {
+        return users.add(obj);
+    }
+
 
     /**
      * Auxiliary convenience method used to close a file and handle possible
