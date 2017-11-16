@@ -155,10 +155,6 @@ public class MainAppGUI extends JFrame {
         JButton deliverPackage = new JButton("Deliver a package");
         deliverPackage.setHorizontalAlignment(SwingConstants.LEFT);
 
-        // Show list of transactions JButton
-        JButton showListTransaction = new JButton("Show a list of transactions");
-        showListTransaction.setHorizontalAlignment(SwingConstants.LEFT);
-
         JButton showAllCompletedTransactions = new JButton("Show a list of completed shipping transactions");
         showAllCompletedTransactions.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -270,19 +266,6 @@ public class MainAppGUI extends JFrame {
             }
         });
 
-        showListTransaction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                logger.log(Level.INFO, "User pressed 'Show a list of transactions'");
-                field.setText("STATUS: Showing list of transaction ...");
-                Thread qThread = new Thread() {
-                    public void run() {
-                        showListOfTransactionsUI();
-                    }
-                };
-                qThread.start();
-            }
-        });
-
         showAllCompletedTransactions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show a list of completed shipping transactions'");
@@ -326,7 +309,6 @@ public class MainAppGUI extends JFrame {
         buttonPanel.add(deliverPackage);
         buttonPanel.add(addUser);
         buttonPanel.add(updateUserInfo);
-        buttonPanel.add(showListTransaction);
         buttonPanel.add(showAllCompletedTransactions);
         buttonPanel.add(exit);
 
@@ -355,8 +337,13 @@ public class MainAppGUI extends JFrame {
       try {
           // Do something
           for (int i = 0; i < db.getPackageList().size(); ++i) {
-              for (int  j = 0; i < db.getPackageList().size(); i++)
-                  data[i][j] = db.getPackageList().get(i).display();
+
+              System.out.println("G0");
+              data[i][0] = db.getPackageList().get(i).getClass().getName();
+              data[i][1] = db.getPackageList().get(i).getPtn();
+              data[i][2] = db.getPackageList().get(i).getSpecification();
+              data[i][3] = db.getPackageList().get(i).getMailingClass();
+              data[i][4] = db.getPackageList().get(i).toString();
 
           }
       }
@@ -580,8 +567,6 @@ public class MainAppGUI extends JFrame {
             // Do something
             for (int i = 0; i < db.getUserList().size(); ++i) {
 
-                String intialText = db.getUserList().get(i).toString();
-                String finalText = "";
                 System.out.println("GO");
                 data[i][0] = db.getUserList().get(i).getClass().getName();
                 data[i][1] = db.getUserList().get(i).getId();
@@ -749,9 +734,6 @@ public class MainAppGUI extends JFrame {
 
     }
 
-    // Kristof
-    public void showListOfTransactionsUI() {}
-
     //
     public void showAllCompletedTransactionsUI() {
         //Completed
@@ -763,8 +745,6 @@ public class MainAppGUI extends JFrame {
             // Do something
             for (int i = 0; i < db.getTransactionList().size(); ++i) {
 
-                String intialText = db.getTransactionList().get(i).toString();
-                String finalText = "";
                 System.out.println("GO");
                 data[i][0] = db.getTransactionList().get(i).getCustomerId();
                 data[i][1] = db.getTransactionList().get(i).getEmployeeId();

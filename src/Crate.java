@@ -81,7 +81,7 @@ public class Crate extends Package {
 
     @Override
     public String toString() {
-        return "Crate{" + "ptn=" + ptn + ", specification=" + specification +
+        return "Envelope{" + "ptn=" + ptn + ", specification=" + specification +
                 ", Mailing Class=" + mailingClass + ", loadWeight=" + loadWeight +
                 ", width=" + content + '}';
     }
