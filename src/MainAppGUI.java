@@ -1109,10 +1109,14 @@ public class MainAppGUI extends JFrame {
         return JFrame.EXIT_ON_CLOSE;
     }
 
+    /**
+     * Implementing adding a new package interface
+     * @param pane
+     */
     public void newPanelComponentPackage(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        // Panel for adding a new passenger vehicle
+        // Panel for adding a new package
         JPanel envelopeTab = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
