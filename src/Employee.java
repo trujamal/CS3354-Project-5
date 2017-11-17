@@ -4,6 +4,8 @@
  * Copyright: Junye Wen (j_w236@txstate.edu)
  */
 
+import java.util.List;
+
 /**
  * Employee is a subclass of User
  * @author Junye Wen
@@ -100,7 +102,7 @@ public class Employee extends User {
     @Override
     public String toString() {
         return "id=" + id + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", socialSecurityNumber=" + socialSecurityNumber
+                + ", lastName=" + lastName + ",Info: socialSecurityNumber=" + socialSecurityNumber
                 + ", monthlySalary=" + monthlySalary
                 + ", bankAccountNumber=" + bankAccountNumber;
     }

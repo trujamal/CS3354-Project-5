@@ -220,11 +220,12 @@ public class ShippingStore {
      * manner.
      */
     private String getFormattedUserList(List<User> users) {
+
         String text ="---------------------------------------------------"
                 + "------------------------------------------------"
                 + "---------------\n";
         text += String.format("| %10s | %9s | %12s | %12s | %35s                    | %n",
-                "USER TYPE", "USER ID", "FIST NAME", "LAST NAME", "OTHER DETAILS");
+                "USER TYPE", "USER ID", "FIRST NAME", "LAST NAME", "OTHER DETAILS");
         text += "---------------------------------------------------"
                 + "-----------------------------------------------"
                 + "---------------\n";
@@ -237,6 +238,10 @@ public class ShippingStore {
 
         return text;
     }
+
+
+
+
 
     /**
      * Returns a string list of all users in the database in a formatted manner.

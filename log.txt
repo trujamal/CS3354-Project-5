@@ -1,6 +1,6 @@
-16/11/2017 10:42:18.943 - [MainAppGUI.<init>] :
+17/11/2017 12:00:35.320 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-16/11/2017 10:42:20.454 - [MainAppGUI$1.actionPerformed] :
-	[INFO] - User pressed 'Show all existing packages in database'
-16/11/2017 10:42:20.700 - [MainAppGUI.displayInventoryUI] :
-	[INFO] - User in 'Package List' window
+17/11/2017 12:00:50.887 - [MainAppGUI$5.actionPerformed] :
+	[INFO] - User pressed 'Show list of users'
+17/11/2017 12:00:51.047 - [MainAppGUI.listUsersUI] :
+	[INFO] - User in 'User List' window

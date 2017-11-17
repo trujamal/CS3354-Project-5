@@ -17,6 +17,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
  * @author Jamal Rasool (j_r771)
  * @author Zach Sotak (zs1046)
  * @version 1.0
+ * MainAppGUI
  */
 
 public class MainAppGUI extends JFrame {
@@ -257,8 +258,8 @@ public class MainAppGUI extends JFrame {
 
         deliverPackage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-                logger.log(Level.INFO, "User pressed 'Update user info'");
-                field.setText("STATUS: updating user ...");
+                logger.log(Level.INFO, "User pressed 'Update deliver package'");
+                field.setText("STATUS: User in Deliver a package ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         deliverPackageUI();
@@ -322,6 +323,10 @@ public class MainAppGUI extends JFrame {
         logger.log(Level.INFO, "User has loaded main menu of GUI");
     }
 
+    /**
+     * Display Inventory UI, is designed to go through and show all of the list of packages within the database, by displaying
+     * informaiton such as tracking number, mailing class, and many other feautres.
+     */
 
     public void displayInventoryUI() {
 
@@ -432,7 +437,7 @@ public class MainAppGUI extends JFrame {
                             JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
                                             " and try again!", "Failure!",
                                     ERROR_MESSAGE);
-                            logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
+                            logger.log(Level.INFO, "User's search term was not found, nothing removed from package" +
                                     "database");
                         }
                     }
@@ -458,7 +463,10 @@ public class MainAppGUI extends JFrame {
 
     }
 
-    // Maria
+    /**
+     * Search Pack UI, is desinged to go through and search for the package that the user wants to look for and display
+     * the information that goes along with it.
+     */
     private void searchPackUI() {
         JFrame frame1 = new JFrame("Searching Package");
 
@@ -563,8 +571,10 @@ public class MainAppGUI extends JFrame {
 
     }
 
-    // Maria
-    // Completed
+    /**
+     * List user UI is designed to list all of the users within the database of the system, and show all of their provided
+     * information
+     */
     public void listUsersUI() {
         JFrame frame2 = new JFrame("User List");
 
@@ -574,12 +584,11 @@ public class MainAppGUI extends JFrame {
             // Do something
             for (int i = 0; i < db.getUserList().size(); ++i) {
 
-                System.out.println("GO");
                 data[i][0] = db.getUserList().get(i).getClass().getName();
                 data[i][1] = db.getUserList().get(i).getId();
                 data[i][2] = db.getUserList().get(i).getFirstName();
                 data[i][3] = db.getUserList().get(i).getLastName();
-                String info = db.getPackageList().get(i).toString();
+                String info = db.getUserList().get(i).toString();
                 data[i][4] = info.substring(info.lastIndexOf("Info:")+6);
             }
         } catch (ClassCastException e) {
@@ -604,7 +613,9 @@ public class MainAppGUI extends JFrame {
 
     }
 
-    // Zach
+    /**
+     * Add user UI is designed to bring up the add new user UI, and allows the User to add a new user.
+     */
     public void addUserUI() {
         JFrame frame = new JFrame("Adding new user");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -620,7 +631,11 @@ public class MainAppGUI extends JFrame {
         logger.log(Level.INFO, "User has entered 'Adding new user'");
     }
 
-    // zach
+    /**
+     * Update User Info is designed to allow the user to update the info of a person by entering the ID of said person,
+     * by doing this they are able to edit infomration such as first name, last name, address, and phone number.
+     */
+
     public void updateUserInfoUI() {
         JFrame frame = new JFrame("Update a user");
         JPanel panel = new JPanel();
@@ -642,9 +657,25 @@ public class MainAppGUI extends JFrame {
                             break;
                         }
                     } catch (NumberFormatException e) {
+                        Container frame = panel.getParent();
+                        do {
+                            frame = frame.getParent();
+                        } while (!(frame instanceof JFrame));
+                        JOptionPane.showMessageDialog(frame, "Error you have enter an invalid character"
+                                , "Failure!",
+                                JOptionPane.ERROR_MESSAGE);
                         logger.log(Level.SEVERE, "User submitted non-integer values", e);
+
                     } catch (Exception ex) {
+                        Container frame = panel.getParent();
+                        do {
+                            frame = frame.getParent();
+                        } while (!(frame instanceof JFrame));
+                        JOptionPane.showMessageDialog(frame, "You literally broke the program! Congratulations you won " +
+                                        "An unknown error has occurred!", "Critical Failure!",
+                                JOptionPane.ERROR_MESSAGE);
                         logger.log(Level.SEVERE, "Unknown exception occurred", ex);
+
                     }
                 }
                 final User temp = db.getUserAtPosition(q);
@@ -733,7 +764,11 @@ public class MainAppGUI extends JFrame {
     }
 
 
-    // Krisof
+    /**
+     * Deliver Package UI is designed to allow the user to process a delivery, by entering information such as the
+     * customer id, employee id, transaction number, and the cost of the actual transaction.
+     */
+
     public void deliverPackageUI() {
         JFrame frame = new JFrame("Package Delivery");
 
@@ -751,7 +786,10 @@ public class MainAppGUI extends JFrame {
 
     }
 
-    //
+    /**
+     * Show All Completed Transactions is designed to show all completed shipping transactions that have been processed,
+     * and delivered by the systems standards.
+     */
     public void showAllCompletedTransactionsUI() {
         //Completed
         JFrame frame2 = new JFrame("Transaction List");
@@ -762,7 +800,6 @@ public class MainAppGUI extends JFrame {
             // Do something
             for (int i = 0; i < db.getTransactionList().size(); ++i) {
 
-                System.out.println("GO");
                 data[i][0] = db.getTransactionList().get(i).getCustomerId();
                 data[i][1] = db.getTransactionList().get(i).getEmployeeId();
                 data[i][2] = db.getTransactionList().get(i).getPtn();
@@ -793,6 +830,12 @@ public class MainAppGUI extends JFrame {
 
     }
 
+    /**
+     * newPanelComponentUser is designed to do the backend work of adding a user to the database, and also handling the
+     * creation of the actual interface in terms of how many rows, buttons, and fields that there is. Also this function
+     * is designed to handle the error checking.
+     * @param pane Transfers over the UI elements from the main JFRAME
+     */
     public void newPanelComponentUser(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -885,10 +928,7 @@ public class MainAppGUI extends JFrame {
                                     do {
                                         frame = frame.getParent();
                                     } while (!(frame instanceof JFrame));
-                                    JOptionPane.showMessageDialog(frame, "User has been successfully added!\n" +
-                                                    "You may continue to add users by pressing \"Ok\" \n" +
-                                                    "or you may exit from this operation by pressing \"Ok\" (in this window)\n" +
-                                                    "then \"Exit\" (in the 'Adding new user' window)",
+                                    JOptionPane.showMessageDialog(frame, "User has been successfully added!\n",
                                             "Success!", JOptionPane.INFORMATION_MESSAGE);
                                     logger.log(Level.INFO, "New user added successfully");
                                 } else {
@@ -1025,10 +1065,7 @@ public class MainAppGUI extends JFrame {
                                 do {
                                     frame = frame.getParent();
                                 } while (!(frame instanceof JFrame));
-                                JOptionPane.showMessageDialog(frame, "User has been successfully added!\n" +
-                                                "You may continue to add users by pressing \"Ok\" \n" +
-                                                "or you may exit from this operation by pressing \"Ok\" (in this window)\n" +
-                                                "then \"Exit\" (in the 'Adding new user' window)",
+                                JOptionPane.showMessageDialog(frame, "User has been successfully added!\n",
                                         "Success!", JOptionPane.INFORMATION_MESSAGE);
                                 logger.log(Level.INFO, "User successfully adds a new Employee");
                             } else {
@@ -1075,6 +1112,12 @@ public class MainAppGUI extends JFrame {
     }
 
     @SuppressWarnings("Duplicates")
+
+    /**
+     * newPanelComponentDeliver is designed to handle the backend of all the package delivery system by deleting it out
+     * of the shippingStore database, and moving it over to the completed transactions.
+     * @param pane Transfers over the UI elements form the main JFRAME
+     */
     public void newPanelComponentDeliver(Container pane) {
         // Panel for adding a new Customer
         JPanel card1 = new JPanel(new GridLayout(6, 1, 1, 1)) {
@@ -1107,15 +1150,17 @@ public class MainAppGUI extends JFrame {
 
         JButton cSUBMIT = new JButton("Submit");
         card1.add(cSUBMIT);
+
         JButton cCLEAR = new JButton("Clear");
         card1.add(cCLEAR);
+
         exitFrom = new JButton("Exit");
         card1.add(exitFrom);
 
         cSUBMIT.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Thread qThread = new Thread() {
-                    public void run() {
+                    public void run() {{
                         int CustomerID, EmployeeID;
                         String trackingNumber;
                         float price;
@@ -1149,6 +1194,18 @@ public class MainAppGUI extends JFrame {
                         if (cPriceTF.getText().length() == 0) {
                             err.add("'Price' value is invalid");
                             logger.log(Level.WARNING, "User submitted empty field (Price)");
+                        }
+
+                        if(cPriceTF.getText().length() == 0 && cTrackingNumberTF.getText().length() == 0
+                                && cLNameTF.getText().length() == 0 && cFNameTF.getText().length() == 0) {
+                            Container frame = card1.getParent();
+                            do {
+                                frame = frame.getParent();
+                            } while (!(frame instanceof JFrame));
+                            JOptionPane.showMessageDialog(frame, "Error you have not entered anything"
+                                    , "Failure!",
+                                    JOptionPane.ERROR_MESSAGE);
+                            logger.log(Level.SEVERE, "User left all fields blank", e);
                         }
 
                         price = Float.parseFloat(cPriceTF.getText());
@@ -1188,12 +1245,13 @@ public class MainAppGUI extends JFrame {
                             }
                         }
 
-                    }
+                    }}
                 };
+                qThread.start();
             }
         });
 
-        exitFromPackage.addActionListener(new ActionListener() {
+        exitFrom.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 logger.log(Level.INFO, "User exited from creating a package via exit JButton");
                 Container frame = exitFrom.getParent();
@@ -1213,6 +1271,8 @@ public class MainAppGUI extends JFrame {
                 cTrackingNumberTF.setText("");
             }
         });
+
+
 
         pane.add(card1, BorderLayout.WEST);
     }
@@ -1253,8 +1313,8 @@ public class MainAppGUI extends JFrame {
     }
 
     /**
-     * Implementing adding a new package interface
-     *
+     * newPanelComponentPackage is designed to display all of the options to handle adding a new package to the system.
+     * Implementing adding a new package interface,
      * @param pane
      */
 
@@ -1396,10 +1456,7 @@ public class MainAppGUI extends JFrame {
                                     do {
                                         frame = frame.getParent();
                                     } while (!(frame instanceof JFrame));
-                                    JOptionPane.showMessageDialog(frame, "Package has been successfully added!\n" +
-                                                    "You may continue to add packages by pressing \"Ok\" \n" +
-                                                    "or you may exit from this operation by pressing \"Ok\" (in this window)\n" +
-                                                    "then \"Exit\" (in the 'Adding package' window)",
+                                    JOptionPane.showMessageDialog(frame, "Package has been successfully added!\n",
                                             "Success!", JOptionPane.INFORMATION_MESSAGE);
                                     logger.log(Level.INFO, "User able to successfully add an Envelope object");
                                 } catch (Exception e) {
@@ -1514,7 +1571,7 @@ public class MainAppGUI extends JFrame {
                             logger.log(Level.WARNING, "User submitted tracking number that is wrong length");
                         } else if (db.packageExists(bTrackInput.getText())) {
                             err.add("'VIN' already exists in the database!");
-                            logger.log(Level.WARNING, "Vehicle already exists, invalid VIN to add");
+                            logger.log(Level.WARNING, "Package already exists, invalid tracking number to add");
                         }
 
                         tracking = bTrackInput.getText();
@@ -1592,7 +1649,7 @@ public class MainAppGUI extends JFrame {
 
         bClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                logger.log(Level.INFO, "User cleared the form for adding a motorcycle");
+                logger.log(Level.INFO, "User cleared the form for adding a package");
                 bTrackInput.setText("");
                 bMailT.setText("");
                 bSpecT.setText("");

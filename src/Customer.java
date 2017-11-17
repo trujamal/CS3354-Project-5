@@ -79,7 +79,7 @@ public class Customer extends User {
     @Override
     public String toString() {
         return "id=" + id + ", firstName=" + firstName
-                + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber 
+                + ", lastName=" + lastName + ",Info: phoneNumber=" + phoneNumber
                 + ", address=" + address;
     }
 }
