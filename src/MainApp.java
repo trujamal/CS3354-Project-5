@@ -246,6 +246,7 @@ public class MainApp {
         System.out.print("\nEnter tracking number of pacakge to delete (string): ");
         String ptn = sc.nextLine();
 
+
         if (ss.deletePackage(ptn))
             System.out.println("Package deleted.");
         else

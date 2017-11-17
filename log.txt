@@ -1,6 +1,6 @@
-16/11/2017 06:18:42.648 - [MainAppGUI.<init>] :
+16/11/2017 05:23:45.057 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-16/11/2017 06:18:45.396 - [MainAppGUI$8.actionPerformed] :
-	[INFO] - User pressed 'Update user info'
-16/11/2017 06:18:45.459 - [MainAppGUI.deliverPackageUI] :
-	[INFO] - User has entered 'Deliver Package'.
+16/11/2017 05:24:09.514 - [MainAppGUI$10.actionPerformed] :
+	[INFO] - User pressed 'Exit program'
+16/11/2017 05:24:09.526 - [MainAppGUI.closeOP] :
+	[INFO] - User has closed the program via 'Exit' in main menu, exit successful!
