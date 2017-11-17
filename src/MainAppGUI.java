@@ -1110,8 +1110,9 @@ public class MainAppGUI extends JFrame {
     }
 
     /**
-     * Implementing adding a new package interface
-     * @param pane
+     * Implementing adding a new package interface, that will go through and take the envelope, crate, box, drum classes
+     * and implement it towards allowing the users to interact with the GUI to create said package.
+     * @param pane pane passes through the main pane for it to be able to display.
      */
     public void newPanelComponentPackage(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
