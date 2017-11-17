@@ -1,10 +1,16 @@
-14/11/2017 07:07:05.636 - [MainAppGUI.<init>] :
+16/11/2017 05:59:31.217 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-14/11/2017 07:07:13.745 - [MainAppGUI$1.actionPerformed] :
+16/11/2017 05:59:32.639 - [MainAppGUI$2.actionPerformed] :
+	[INFO] - Add a new package to the database'
+16/11/2017 05:59:32.801 - [MainAppGUI.addPackageUI] :
+	[INFO] - User in 'Adding Package' window
+16/11/2017 05:59:45.946 - [MainAppGUI$3.actionPerformed] :
+	[INFO] - User pressed 'Delete a package from the database'
+16/11/2017 05:59:46.051 - [MainAppGUI.deletePackageUI] :
+	[INFO] - User opened up GUI option to delete a vehicle
+16/11/2017 05:59:48.023 - [MainAppGUI$13.actionPerformed] :
+	[INFO] - User presses 'Exit' button
+16/11/2017 05:59:49.560 - [MainAppGUI$1.actionPerformed] :
 	[INFO] - User pressed 'Show all existing packages in database'
-14/11/2017 07:07:13.863 - [MainAppGUI.displayInventoryUI] :
-	[INFO] - User in 'Package List' window
-14/11/2017 07:09:01.915 - [MainAppGUI$1.actionPerformed] :
-	[INFO] - User pressed 'Show all existing packages in database'
-14/11/2017 07:09:02.016 - [MainAppGUI.displayInventoryUI] :
+16/11/2017 05:59:49.714 - [MainAppGUI.displayInventoryUI] :
 	[INFO] - User in 'Package List' window

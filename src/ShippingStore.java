@@ -26,6 +26,7 @@ public class ShippingStore {
 
     }
 
+
     /**
      * Constructor. Initializes the package list, users, and transactions to
      * given values.
@@ -56,7 +57,7 @@ public class ShippingStore {
     }
 
     public void getExtraInfo() {
-        
+
     }
         /**
      * Auxiliary method used to find a package in the database, given its

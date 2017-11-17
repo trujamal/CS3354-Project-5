@@ -84,4 +84,5 @@ public class Envelope extends Package {
                 ", Mailing Class=" + mailingClass + ", height=" + height +
                 ", width=" + width + '}';
     }
+
 }
