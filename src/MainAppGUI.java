@@ -11,6 +11,7 @@ import java.util.logging.*;
 import java.util.Scanner;
 import java.util.*;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import java.util.logging.*;
 import java.io.*;
 import java.util.logging.Formatter;
@@ -488,8 +489,6 @@ public class MainAppGUI extends JFrame {
                                 // Do something
                                 for (int i = 0; i < db.getPackageList().size(); ++i) {
 
-                                    String intialText = db.getPackageList().get(i).toString();
-                                    String finalText = "";
                                     System.out.println(trackingno.getText());
                                     System.out.println(db.getPackageList().get(i).ptn);
                                     if(db.getPackageList().get(i).ptn.equals(trackingno.getText())){
@@ -731,6 +730,18 @@ public class MainAppGUI extends JFrame {
 
     // Krisof
     public void deliverPackageUI() {
+        JFrame frame = new JFrame("Package Delivery");
+
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        //Create and set up the content pane.
+        MainAppGUI x = new MainAppGUI();
+        x.newPanelComponentDeliver(frame.getContentPane());
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+        logger.log(Level.INFO, "User has entered 'Deliver Package'.");
 
     }
 
@@ -863,7 +874,7 @@ public class MainAppGUI extends JFrame {
 
 
                             if (err.isEmpty()) {
-                                Customer newObj = new Customer(db.userIdCounter++, first, last, phone, dl);
+                                Customer newObj = new Customer(db.idGen(), first, last, phone, dl);
                                 if (db.addUserDirectly(newObj)) {
                                     Container frame = card1.getParent();
                                     do {
@@ -956,7 +967,7 @@ public class MainAppGUI extends JFrame {
 
         exitFromUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                logger.log(Level.INFO, "User is exiting the add vehicle window");
+                logger.log(Level.INFO, "User is exiting the add user window");
                 Container frame = exitFrom.getParent();
                 do {
                     frame = frame.getParent();
@@ -1007,7 +1018,7 @@ public class MainAppGUI extends JFrame {
                         SSN = Integer.parseInt(eSSNTF.getText());
 
                         if (err.isEmpty()) {
-                            Employee newObj = new Employee(db.userIdCounter++, first, last, SSN, salary, bank);
+                            Employee newObj = new Employee(db.idGen(), first, last, SSN, salary, bank);
                             if (db.addUserDirectly(newObj)) {
                                 Container frame = card2.getParent();
                                 do {
@@ -1061,6 +1072,101 @@ public class MainAppGUI extends JFrame {
         tabbedPane.addTab(CUSTOMERPANEL, card1);
         tabbedPane.addTab(EMPLOYEEPANEL, card2);
 
+        pane.add(tabbedPane, BorderLayout.WEST);
+    }
+
+    public void newPanelComponentDeliver(Container pane) {
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        // Panel for adding a new Customer
+        JPanel card1 = new JPanel(new GridLayout(4, 1, 1, 1)) {
+            public Dimension getPreferredSize() {
+                Dimension size = super.getPreferredSize();
+                size.width += extraWindowWidth;
+                return size;
+            }
+        };
+
+        JLabel cFName = new JLabel("CustomerID (Int)");
+        JTextField cFNameTF = new JTextField("", 12);
+        card1.add(cFName);
+        card1.add(cFNameTF);
+        JLabel cLName = new JLabel("EmployeeID (Int)");
+        JTextField cLNameTF = new JTextField("", 12);
+        card1.add(cLName);
+        card1.add(cLNameTF);
+        JLabel cPhone = new JLabel("Tracking # (Int)");
+        JTextField cPhoneTF = new JTextField("", 12);
+        card1.add(cPhone);
+        card1.add(cPhoneTF);
+        JLabel cDLN = new JLabel("Price (float)");
+        JTextField cDLNTF = new JTextField("", 12);
+        card1.add(cDLN);
+        card1.add(cDLNTF);
+
+        JButton cSUBMIT = new JButton("Submit");
+        card1.add(cSUBMIT);
+        JButton cCLEAR = new JButton("Clear");
+        card1.add(cCLEAR);
+        exitFrom = new JButton("Exit");
+        card1.add(exitFrom);
+
+
+        exitFrom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Container frame = exitFrom.getParent();
+                do {
+                    frame = frame.getParent();
+                } while (!(frame instanceof JFrame));
+                ((JFrame) frame).dispose();
+            }
+        });
+
+        cSUBMIT.addActionListener(new ActionListener() {
+                                      public void actionPerformed(ActionEvent e) {
+                                          Thread qThread = new Thread() {
+                                              public void run() {
+                                                  int CustomerID, EmployeeID;
+                                                  String trackingNumber;
+                                                  float price;
+
+                                                  ArrayList<String> err = new ArrayList<>();
+
+                                                  if (cFName.getText().length() == 0) {
+                                                      err.add("Field 'CustomerID' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field text (CustomerID)");
+                                                  }
+
+                                                  CustomerID = Integer.parseInt(cFNameTF.getText());
+
+
+                                                  if (cLNameTF.getText().length() == 0) {
+                                                      err.add("Field 'EmployeeID' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field (EmployeeID)");
+
+                                                  }
+
+                                                  EmployeeID = Integer.parseInt(cLNameTF.getText());
+
+                                                  if (cPhoneTF.getText().length() == 0) {
+                                                      err.add("Field 'Tracking #' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field (Tracking #)");
+                                                  }
+
+                                                  trackingNumber = cPhoneTF.getText();
+
+                                                  if (cDLNTF.getText().length() == 0) {
+                                                      err.add("'Price' value is invalid");
+                                                      logger.log(Level.WARNING, "User submitted empty field (Price)");
+                                                  }
+
+                                                  price = Float.parseFloat(cDLNTF.getText());
+
+
+                                              }
+                                          };
+                                      }
+                                  });
         pane.add(tabbedPane, BorderLayout.WEST);
     }
 

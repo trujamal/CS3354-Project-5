@@ -50,17 +50,6 @@ public class ShippingStore {
     public List<Transaction> getTransactionList() { return transactions;}
 
     /**
-     *
-     * @param Counter
-     */
-    public void setUserIdCounter(int Counter) {
-        this.userIdCounter = Counter;
-    }
-
-    public void getExtraInfo() {
-
-    }
-    /**
      * Auxiliary method used to find a package in the database, given its
      * tracking number.
      *
@@ -505,6 +494,11 @@ public class ShippingStore {
         } catch (IOException ex) {
             System.err.println(ex.toString());
         }
+    }
+
+    public int idGen() {
+        Random r = new Random(System.currentTimeMillis());
+        return((1+r.nextInt(2)) * 10000 + r.nextInt(10000));
     }
 
 }
