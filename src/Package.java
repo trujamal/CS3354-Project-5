@@ -29,6 +29,7 @@ public abstract class Package implements Serializable {
      * The mailing class of the package.
      */
     protected String mailingClass;
+    
 
     /**
      * Default constructor used to initialize the class fields of the class.

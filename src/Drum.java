@@ -80,12 +80,13 @@ public class Drum extends Package {
 
     @Override
     public String toString() {
-        return "Drum{" + "ptn=" + ptn + ", specification=" + specification +
-                ", Mailing Class=" + mailingClass + ", height=" + material +
-                ", volume=" + diameter + '}';
+        return "ptn=" + ptn + ", specification=" + specification +
+                ", Mailing Class=" + mailingClass + ",Info: Material=" + material +
+                ", volume=" + diameter;
     }
 
     public void display() {
         System.out.printf("Drum", getPtn(), getSpecification(), getMailingClass(), getMaterial(), getDiameter());
     }
+
 }

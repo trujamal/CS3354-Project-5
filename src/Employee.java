@@ -99,9 +99,9 @@ public class Employee extends User {
 
     @Override
     public String toString() {
-        return "Employee{" + "id=" + id + ", firstName=" + firstName
+        return "id=" + id + ", firstName=" + firstName
                 + ", lastName=" + lastName + ", socialSecurityNumber=" + socialSecurityNumber
                 + ", monthlySalary=" + monthlySalary
-                + ", bankAccountNumber=" + bankAccountNumber + '}';
+                + ", bankAccountNumber=" + bankAccountNumber;
     }
 }
