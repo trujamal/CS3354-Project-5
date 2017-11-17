@@ -13,7 +13,7 @@ public class ShippingStore {
     private final List<User> users;
     private final List<Transaction> transactions;
 
-    private int userIdCounter = 1;
+    protected int userIdCounter = 1;
 
     /**
      * Default constructor. Initializes the inventory, users, and transactions
@@ -47,6 +47,8 @@ public class ShippingStore {
      */
 
     public List<Package> getPackageList() { return packageList;}
+    public List<User> getUserList() { return users;}
+    public List<Transaction> getTransactionList() { return transactions;}
 
     /**
      *
@@ -59,7 +61,7 @@ public class ShippingStore {
     public void getExtraInfo() {
 
     }
-        /**
+    /**
      * Auxiliary method used to find a package in the database, given its
      * tracking number.
      *
@@ -88,7 +90,7 @@ public class ShippingStore {
     }
 
     /**
-     * 
+     *
      * @param ptn
      * @param specification
      * @param mailingClass
@@ -112,7 +114,7 @@ public class ShippingStore {
         Box box = new Box(ptn, specification, mailingClass, dimension, volume);
         packageList.add(box);
     }
-    
+
     /**
      *
      * @param ptn
@@ -125,7 +127,7 @@ public class ShippingStore {
         Crate crate = new Crate(ptn, specification, mailingClass, loadWeight, content);
         packageList.add(crate);
     }
-    
+
     /**
      *
      * @param ptn
@@ -138,7 +140,7 @@ public class ShippingStore {
         Drum drum = new Drum(ptn, specification, mailingClass, material, diameter);
         packageList.add(drum);
     }
-    
+
 
     /**
      * This method allows the user to delete a package from the inventory
@@ -147,7 +149,7 @@ public class ShippingStore {
      * @return True if the package was found and was deleted. False otherwise.
      */
     public boolean deletePackage(String ptn) {
-        
+
         for (Package p : packageList) {
             if (p.getPtn().equals(ptn)) {
                 packageList.remove(p);
@@ -156,7 +158,7 @@ public class ShippingStore {
         }
         return false;
     }
-    
+
 
     /**
      * Auxiliary private method to return a list of packages in a formatted
@@ -174,19 +176,19 @@ public class ShippingStore {
         }
         text += "---------------------------------------------------"
                 + "----------------------------------------------------------\n";
-        
+
         return text;
     }
 
     /**
      * This method return all the packages currently in the inventory, in a
      * formatted manner.
-     * @return 
+     * @return
      */
     public String getAllPackagesFormatted() {
         return getFormattedPackageList(packageList);
     }
-    
+
     /**
      *
      * @param ptn
@@ -195,10 +197,10 @@ public class ShippingStore {
     public String getPackageFormatted(String ptn) {
         ArrayList<Package> matchingPackage = new ArrayList<Package>(1);
         matchingPackage.add(findPackage(ptn));
-        
+
         return getFormattedPackageList(matchingPackage);
     }
-    
+
     /**
      *
      * @param firstName
@@ -209,7 +211,7 @@ public class ShippingStore {
     public void addCustomer(String firstName, String lastName, String phoneNumber, String address) {
         users.add(new Customer(userIdCounter++, firstName, lastName, phoneNumber, address));
     }
-    
+
     /**
      *
      * @param firstName
@@ -222,8 +224,8 @@ public class ShippingStore {
         users.add(new Employee(userIdCounter++, firstName, lastName, ssn, monthlySalary, bankAccNumber));
     }
 
-    
-    
+
+
     /**
      * Auxiliary private method to return a list of users in a formatted
      * manner.
@@ -243,7 +245,7 @@ public class ShippingStore {
         text += "---------------------------------------------------"
                 + "-----------------------------------------------"
                 + "---------------\n";
-        
+
         return text;
     }
 
@@ -254,7 +256,7 @@ public class ShippingStore {
     public String getAllUsersFormatted() {
         return getFormattedUserList(users);
     }
-    
+
     /**
      *
      * @param userID
@@ -263,10 +265,10 @@ public class ShippingStore {
     public boolean userExists(int userID) {
         if (findUser(userID) != null)
             return true;
-        
+
         return false;
     }
-    
+
     /**
      *
      * @param userID
@@ -274,16 +276,16 @@ public class ShippingStore {
      */
     public User findUser(int userID) {
         User user = null;
-        
+
         for (User u : users) {
             if (u.getId() == userID) {
                 user = u;
             }
         }
-        
+
         return user;
     }
-    
+
     /**
      *
      * @param userID
@@ -295,7 +297,7 @@ public class ShippingStore {
             return true;
         return false;
     }
-    
+
     /**
      *
      * @param userID
@@ -307,7 +309,7 @@ public class ShippingStore {
             return true;
         return false;
     }
-    
+
     /**
      *
      * @param userID
@@ -317,7 +319,7 @@ public class ShippingStore {
      * @param address
      */
     public void updateCustomer(int userID, String firstName, String lastName,
-            String phoneNumber, String address) {
+                               String phoneNumber, String address) {
         Customer customer = (Customer) findUser(userID);
         if (customer == null) {
             System.err.println("Customer not found!");
@@ -328,7 +330,7 @@ public class ShippingStore {
         customer.setPhoneNumber(phoneNumber);
         customer.setAddress(address);
     }
-    
+
     /**
      *
      * @param userID
@@ -339,7 +341,7 @@ public class ShippingStore {
      * @param bankAccNumber
      */
     public void updateEmployee(int userID, String firstName, String lastName,
-            int ssn, float monthlySalary, int bankAccNumber) {
+                               int ssn, float monthlySalary, int bankAccNumber) {
         Employee employee = (Employee) findUser(userID);
         if (employee == null) {
             System.err.println("Employee not found!");
@@ -362,15 +364,15 @@ public class ShippingStore {
      * @param price
      */
     public void addShppingTransaction(int customerId, int employeeId, String ptn,
-                       Date shippingDate, Date deliveryDate, float price) {
+                                      Date shippingDate, Date deliveryDate, float price) {
         Transaction trans = new Transaction(customerId, employeeId, ptn, shippingDate, deliveryDate, price);
         transactions.add(trans);
     }
-    
+
 
     /**
      * Return a list of all recorded transactions.
-     * 
+     *
      * @return transactions
      */
     public String getAllTransactionsText() {
@@ -392,9 +394,9 @@ public class ShippingStore {
     // convering from serialized Object to Arraylist<>
     public static ShippingStore readDatabase() {
         System.out.print("Reading database...");
-        
+
         File dataFile = new File("ShippingStore.ser");
-        
+
         ShippingStore ss = null;
 
         // Try to read existing dealership database from a file
@@ -461,6 +463,33 @@ public class ShippingStore {
         }
         System.out.println("Done.");
     }
+    /**
+     * getUserDatabaseSize() is a helper function for the GUI, returns the users.size()
+     * @return an int, users.size()
+     */
+    public int getUserDatabaseSize() {
+        return users.size();
+    }
+
+    /**
+     * getUserAtPosition() returns the User object at position i. It is guaranteed that i will not be greater than, less
+     * than, or equal to size of users.
+     * @param i, the position at which is requested
+     * @return a User object, users.get(i)
+     */
+    public User getUserAtPosition(int i) {
+        return users.get(i);
+    }
+
+    /**
+     * addUserDirectly() is a helper method to the GUI and adds a User obj directly to users
+     * @param obj of User datatype
+     * @return true if users.add(obj) is successful, false otherwise
+     */
+    public boolean addUserDirectly(User obj) {
+        return users.add(obj);
+    }
+
 
     /**
      * Auxiliary convenience method used to close a file and handle possible

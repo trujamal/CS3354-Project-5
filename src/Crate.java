@@ -85,4 +85,8 @@ public class Crate extends Package {
                 ", Mailing Class=" + mailingClass + ", loadWeight=" + loadWeight +
                 ", width=" + content + '}';
     }
+
+    public void display() {
+        System.out.printf("Crate ", getPtn(), getSpecification(), getMailingClass(), getLoadWeight(), getContent());
+    }
 }

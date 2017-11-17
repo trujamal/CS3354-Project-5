@@ -80,9 +80,12 @@ public class Envelope extends Package {
 
     @Override
     public String toString() {
-        return "Envelope{" + "ptn=" + ptn + ", specification=" + specification +
+        return "Envelope " + "ptn=" + ptn + ", specification=" + specification +
                 ", Mailing Class=" + mailingClass + ", height=" + height +
                 ", width=" + width + '}';
     }
 
+    public void display() {
+        System.out.printf("Envelope", getPtn(), getSpecification(), getMailingClass(), getHeight(), getWidth());
+    }
 }

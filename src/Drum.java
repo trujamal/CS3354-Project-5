@@ -84,4 +84,8 @@ public class Drum extends Package {
                 ", Mailing Class=" + mailingClass + ", height=" + material +
                 ", volume=" + diameter + '}';
     }
+
+    public void display() {
+        System.out.printf("Drum", getPtn(), getSpecification(), getMailingClass(), getMaterial(), getDiameter());
+    }
 }

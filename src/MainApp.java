@@ -264,6 +264,7 @@ public class MainApp {
 
         if (ss.packageExists(ptn))
             System.out.println(ss.getPackageFormatted(ptn));
+
         else
             System.out.println("Package with PTN " + ptn + " not found in the database");
     }

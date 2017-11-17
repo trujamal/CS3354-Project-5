@@ -5,9 +5,17 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.*;
+import java.util.Scanner;
+import java.util.*;
+import javax.swing.JOptionPane;
+import java.util.logging.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.logging.Formatter;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 /**
  * @author Jamal Rasool (j_r771)
@@ -148,10 +156,6 @@ public class MainAppGUI extends JFrame {
         JButton deliverPackage = new JButton("Deliver a package");
         deliverPackage.setHorizontalAlignment(SwingConstants.LEFT);
 
-        // Show list of transactions JButton
-        JButton showListTransaction = new JButton("Show a list of transactions");
-        showListTransaction.setHorizontalAlignment(SwingConstants.LEFT);
-
         JButton showAllCompletedTransactions = new JButton("Show a list of completed shipping transactions");
         showAllCompletedTransactions.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -229,7 +233,7 @@ public class MainAppGUI extends JFrame {
         addUser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Add a new user to the database'");
-                field.setText("STATUS: in add user to database ...");
+                field.setText("STATUS: adding user to database ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         addUserUI();
@@ -242,7 +246,7 @@ public class MainAppGUI extends JFrame {
         updateUserInfo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Update user info (given their id)'");
-                field.setText("STATUS: adding user ...");
+                field.setText("STATUS: Updating user ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         updateUserInfoUI();
@@ -265,23 +269,10 @@ public class MainAppGUI extends JFrame {
             }
         });
 
-        showListTransaction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                logger.log(Level.INFO, "User pressed 'Show a list of transactions'");
-                field.setText("STATUS: deleting package ...");
-                Thread qThread = new Thread() {
-                    public void run() {
-                        showListOfTransactionsUI();
-                    }
-                };
-                qThread.start();
-            }
-        });
-
         showAllCompletedTransactions.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 logger.log(Level.INFO, "User pressed 'Show a list of completed shipping transactions'");
-                field.setText("STATUS: showing transactions ...");
+                field.setText("STATUS: Showing completed transactions ...");
                 Thread qThread = new Thread() {
                     public void run() {
                         showAllCompletedTransactionsUI();
@@ -321,7 +312,6 @@ public class MainAppGUI extends JFrame {
         buttonPanel.add(deliverPackage);
         buttonPanel.add(addUser);
         buttonPanel.add(updateUserInfo);
-        buttonPanel.add(showListTransaction);
         buttonPanel.add(showAllCompletedTransactions);
         buttonPanel.add(exit);
 
@@ -339,7 +329,7 @@ public class MainAppGUI extends JFrame {
       if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
                           " is currently empty! Now exiting..", "Failure!",
-                  JOptionPane.ERROR_MESSAGE);
+                  ERROR_MESSAGE);
           logger.log(Level.WARNING, "User attempted to view an empty database");
           return;
       }
@@ -351,15 +341,11 @@ public class MainAppGUI extends JFrame {
           // Do something
           for (int i = 0; i < db.getPackageList().size(); ++i) {
 
-              System.out.println(db.getPackageList().get(i));
-              System.out.println(db.getAllPackagesFormatted());
-
-
               data[i][0] = db.getPackageList().get(i).getClass().getName();
-              data[i][1] = db.getPackageList().get(i).ptn;
-              data[i][2] = db.getPackageList().get(i).specification;
-              data[i][3] = db.getPackageList().get(i).mailingClass;
-              data[i][4] = db.getPackageList().get(i);
+              data[i][1] = db.getPackageList().get(i).getPtn();
+              data[i][2] = db.getPackageList().get(i).getSpecification();
+              data[i][3] = db.getPackageList().get(i).getMailingClass();
+              data[i][4] = db.getPackageList().get(i).toString();
 
           }
       }
@@ -386,9 +372,8 @@ public class MainAppGUI extends JFrame {
       logger.log(Level.INFO, "User in 'Package List' window");
     }
 
-
     /**
-     * Add
+     * Add package UI is designed for bringing up the control pannel to add a package.
      */
     public void addPackageUI() {
         JFrame frame = new JFrame("Adding package");
@@ -416,7 +401,7 @@ public class MainAppGUI extends JFrame {
       if (db.getPackageList().size() == 0) {
           JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
                           " is currently empty! Now exiting removal process..", "Failure!",
-                  JOptionPane.ERROR_MESSAGE);
+                  ERROR_MESSAGE);
           logger.log(Level.WARNING, "User attempted to view an empty list (package list)");
           return;
       }
@@ -446,7 +431,7 @@ public class MainAppGUI extends JFrame {
                       else {
                           JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
                                           " and try again!", "Failure!",
-                                  JOptionPane.ERROR_MESSAGE);
+                                  ERROR_MESSAGE);
                           logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
                                   "database");
                       }
@@ -473,25 +458,623 @@ public class MainAppGUI extends JFrame {
     }
 
     // Maria
-    public void searchPackUI() {}
+    private void searchPackUI() {
+
+        JFrame frame1 = new JFrame("Searching Package");
+
+        if (db.getPackageList().size() == 0) {
+            JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                            " is currently empty! Now exiting..", "Failure!",
+                    ERROR_MESSAGE);
+            logger.log(Level.WARNING, "User attempted to view an empty list (Packages)");
+            return;
+        }
+
+        JPanel searchpanel = new JPanel();
+        JLabel searchfield = new JLabel("Enter the Package's tracking number:  ");
+        JTextField trackingno = new JTextField(12);
+        JButton submit = new JButton("Submit");
+        JButton exit = new JButton("Exit");
+
+        frame1.setContentPane(searchpanel);
+        searchpanel.add(searchfield);
+        searchpanel.add(trackingno);
+        searchpanel.add(submit);
+        searchpanel.add(exit);
+        searchpanel.setVisible(true);
+
+
+        submit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                logger.log(Level.INFO, "User submitted a tracking number for package");
+                Thread qThread = new Thread() {
+                    public void run() {
+                        if (db.packageExists(trackingno.getText())) {
+                            JFrame display = new JFrame("Inventory List");
+
+
+                            // Implement right header
+                            String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
+                            Object[][] data = new Object[db.getPackageList().size()][header.length];
+                            try {
+                                // Do something
+                                for (int i = 0; i < db.getPackageList().size(); ++i) {
+
+                                    String intialText = db.getPackageList().get(i).toString();
+                                    String finalText = "";
+                                    System.out.println(trackingno.getText());
+                                    System.out.println(db.getPackageList().get(i).ptn);
+                                    if(db.getPackageList().get(i).ptn.equals(trackingno.getText())){
+                                        System.out.println("GO");
+                                        data[i][0] = db.getPackageList().get(i).getClass().getName();
+                                        data[i][1] = db.getPackageList().get(i).ptn;
+                                        data[i][2] = db.getPackageList().get(i).specification;
+                                        data[i][3] = db.getPackageList().get(i).mailingClass.toString();
+                                        data[i][4] = db.getPackageList().get(i).toString();
+
+                                        break;
+                                    }
+                                }
+                            }
+                            catch (ClassCastException e) {
+                                logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+                            }
+                            catch (Exception e) {
+                                logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+                                e.printStackTrace();
+                            }
+                            final JTable table = new JTable(data, header);
+                            table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+                            table.setFillsViewportHeight(true);
+                            table.setEnabled(false);
+
+                            JScrollPane scrollPane = new JScrollPane(table);
+                            display.add(scrollPane);
+
+                            display.pack();
+                            display.setVisible(true);
+                            display.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                            logger.log(Level.INFO, "User in 'Package List' window");
+
+
+
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Package not found in database");
+                            logger.log(Level.INFO, "User's search term was not found in the" +
+                                    "database");
+                        }
+                    }
+                };
+                qThread.start();
+            }
+        });
+
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                frame1.dispose();
+                logger.log(Level.INFO, "User presses 'Exit' button");
+            }
+        });
+
+
+
+        //Display the window.
+        frame1.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame1.pack();
+        frame1.setVisible(true);
+        searchpanel.setVisible(true);
+        logger.log(Level.INFO, "User opened up GUI option to search a package");
+
+    }
 
     // Maria
-    public void listUsersUI() {}
+    // Completed
+    public void listUsersUI() {
+        JFrame frame2 = new JFrame("User List");
 
+        String[] header = {"USER TYPE", "USER ID", "FIRST NAME", "LAST NAME", "OTHER DETAILS"};
+        Object[][] data = new Object[db.getUserList().size()][header.length];
+        try {
+            // Do something
+            for (int i = 0; i < db.getUserList().size(); ++i) {
+
+                System.out.println("GO");
+                data[i][0] = db.getUserList().get(i).getClass().getName();
+                data[i][1] = db.getUserList().get(i).getId();
+                data[i][2] = db.getUserList().get(i).getFirstName();
+                data[i][3] = db.getUserList().get(i).getLastName();
+                data[i][4] = db.getUserList().get(i).toString();
+
+            }
+        }
+        catch (ClassCastException e) {
+            logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+            e.printStackTrace();
+        }
+        final JTable table = new JTable(data, header);
+        table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        table.setFillsViewportHeight(true);
+        table.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame2.add(scrollPane);
+
+        frame2.pack();
+        frame2.setVisible(true);
+        frame2.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        logger.log(Level.INFO, "User in 'User List' window");
+
+    }
     // Zach
-    public void addUserUI() {}
+    public void addUserUI() {
+        JFrame frame = new JFrame("Adding new user");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        //Create and set up the content pane.
+        MainAppGUI x = new MainAppGUI();
+        x.newPanelComponentUser(frame.getContentPane());
+
+        //Display the window.
+        frame.pack();
+        frame.setVisible(true);
+        logger.log(Level.INFO, "User has entered 'Adding new user'");
+    }
 
     // zach
-    public void updateUserInfoUI() {}
+    public void updateUserInfoUI() {
+        JFrame frame = new JFrame("Update a user");
+        JPanel panel = new JPanel();
+        JTextField entry = new JTextField(12);
+        JLabel id_name = new JLabel("Enter the ID# of the user to be updated: ");
+        JButton submit = new JButton("Submit");
+
+        panel.add(id_name);
+        panel.add(entry);
+        panel.add(submit);
+
+        submit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                logger.log(Level.INFO, "User pressed 'Submit'");
+                int q = 0;
+                for (int i = 0; i < db.getUserDatabaseSize(); ++i, q++) {
+                    try {
+                        if (db.getUserAtPosition(i).getId() == Integer.parseInt(entry.getText())) {
+                            break;
+                        }
+                    }
+                    catch (NumberFormatException e) {
+                        logger.log(Level.SEVERE, "User submitted non-integer values", e);
+                    }
+                    catch (Exception ex) {
+                        logger.log(Level.SEVERE, "Unknown exception occurred", ex);
+                    }
+                }
+                final User temp = db.getUserAtPosition(q);
+                if (temp == null) {
+                    JOptionPane.showMessageDialog(frame, "User ID not found!", "Failure!",
+                            JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.INFO, "User did not enter a valid ID#");
+                    return;
+                }
+                else {
+                    JPanel subpanel = new JPanel(new GridLayout(5,1,2,5));
+                    JLabel first = new JLabel("First Name: ");
+                    JTextField firstname = new JTextField(temp.getFirstName(), 12);
+                    JLabel last = new JLabel("Last Name: ");
+                    JTextField lastname = new JTextField(temp.getLastName(), 12);
+                    JButton sub_submit = new JButton("Submit Changes");
+                    JLabel phoneNum = new JLabel("Phone Number: ");
+                    JTextField phoneNumb = new JTextField(12);
+                    JLabel uAdd = new JLabel("Customers Address: ");
+                    JTextField uAddress = new JTextField(12);
+                    JLabel salary = new JLabel("Monthly Salary: ");
+                    JTextField salaryTF = new JTextField(12);
+                    JLabel bank = new JLabel("Bank Account #: ");
+                    JTextField bankTF = new JTextField(12);
+                    JLabel type = new JLabel();
+
+                    subpanel.add(first);
+                    subpanel.add(firstname);
+                    subpanel.add(last);
+                    subpanel.add(lastname);
+
+                    if (temp instanceof Customer) {
+                        phoneNumb.setText(((Customer) temp).getPhoneNumber());
+                        uAddress.setText((((Customer) temp).getAddress()));
+                        type.setText("Type: Customer");
+
+                        subpanel.add(phoneNum);
+                        subpanel.add(phoneNumb);
+                        subpanel.add(uAdd);
+                        subpanel.add(uAddress);
+                    }
+                    else {
+                        salaryTF.setText(Float.toString(((Employee) temp).getMonthlySalary()));
+                        bankTF.setText(Integer.toString(((Employee) temp).getBankAccountNumber()));
+                        type.setText("Type: Employee");
+
+                        subpanel.add(salary);
+                        subpanel.add(salaryTF);
+                        subpanel.add(bank);
+                        subpanel.add(bankTF);
+                    }
+
+                    subpanel.add(sub_submit);
+                    subpanel.add(type);
+
+                    frame.getContentPane().removeAll();
+                    frame.getContentPane().add(subpanel);
+                    frame.validate();
+                    frame.pack();
+
+                    sub_submit.addActionListener(new ActionListener() {
+                        public void actionPerformed (ActionEvent x) {
+                            temp.setFirstName(firstname.getText());
+                            temp.setLastName(lastname.getText());
+                            if (temp instanceof Customer) {
+                                ((Customer)temp).setPhoneNumber(phoneNumb.getText());
+                                ((Customer)temp).setAddress((uAddress.getText()));
+                            }
+                            else {
+                                ((Employee)temp).setMonthlySalary(Float.parseFloat(salaryTF.getText()));
+                                ((Employee)temp).setBankAccountNumber(Integer.parseInt(bankTF.getText()));
+                            }
+                            JOptionPane.showMessageDialog(frame, "User has been successfully updated!", "Success!",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                            logger.log(Level.INFO, "User able to update a user");
+                            frame.dispose();
+                        }
+                    });
+                }
+            }
+        });
+
+        frame.setContentPane(panel);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        logger.log(Level.INFO, "User entered 'Update User' operation");
+    }
+
 
     // Krisof
-    public void deliverPackageUI() {}
+    public void deliverPackageUI() {
 
-    // Kristof
-    public void showListOfTransactionsUI() {}
+    }
 
-    // ?
-    public void showAllCompletedTransactionsUI() {}
+    //
+    public void showAllCompletedTransactionsUI() {
+        //Completed
+        JFrame frame2 = new JFrame("Transaction List");
+
+        String[] header = {"CUSTOMER ID", "EMPLOYEE ID", "PTN", "SHIPPING DATE", "DELIVERY DATE", "PRICE"};
+        Object[][] data = new Object[db.getTransactionList().size()][header.length];
+        try {
+            // Do something
+            for (int i = 0; i < db.getTransactionList().size(); ++i) {
+
+                System.out.println("GO");
+                data[i][0] = db.getTransactionList().get(i).getCustomerId();
+                data[i][1] = db.getTransactionList().get(i).getEmployeeId();
+                data[i][2] = db.getTransactionList().get(i).getPtn();
+                data[i][3] = db.getTransactionList().get(i).getShippingDate();
+                data[i][4] = db.getTransactionList().get(i).getDeliveryDate();
+                data[i][5] = db.getTransactionList().get(i).getPrice();
+
+            }
+        }
+        catch (ClassCastException e) {
+            logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+            e.printStackTrace();
+        }
+        final JTable table = new JTable(data, header);
+        table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+        table.setFillsViewportHeight(true);
+        table.setEnabled(false);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame2.add(scrollPane);
+
+        frame2.pack();
+        frame2.setVisible(true);
+        frame2.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        logger.log(Level.INFO, "User in 'All Transaction List' window");
+
+    }
+
+    public void newPanelComponentUser(Container pane) {
+        JTabbedPane tabbedPane = new JTabbedPane();
+
+        // Panel for adding a new Customer
+        JPanel card1 = new JPanel(new GridLayout(6,1,1,1)) {
+            public Dimension getPreferredSize() {
+                Dimension size = super.getPreferredSize();
+                size.width += extraWindowWidth;
+                return size;
+            }
+        };
+        JLabel cFName = new JLabel("First Name (String)");
+        JTextField cFNameTF = new JTextField("", 12);
+        card1.add(cFName);
+        card1.add(cFNameTF);
+        JLabel cLName = new JLabel("Last Name (String)");
+        JTextField cLNameTF = new JTextField("", 12);
+        card1.add(cLName);
+        card1.add(cLNameTF);
+        JLabel cPhone = new JLabel("Phone Number (String)");
+        JTextField cPhoneTF = new JTextField("", 12);
+        card1.add(cPhone);
+        card1.add(cPhoneTF);
+        JLabel cDLN = new JLabel("Customer's Address (String)");
+        JTextField cDLNTF = new JTextField("", 12);
+        card1.add(cDLN);
+        card1.add(cDLNTF);
+
+        JButton cSUBMIT = new JButton ("Submit");
+        card1.add(cSUBMIT);
+        JButton cCLEAR = new JButton("Clear");
+        card1.add(cCLEAR);
+        exitFrom = new JButton("Exit");
+        card1.add(exitFrom);
+
+        exitFrom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Container frame = exitFrom.getParent();
+                do {
+                    frame = frame.getParent();
+                } while (!(frame instanceof JFrame));
+                ((JFrame) frame).dispose();
+            }
+        });
+
+        cSUBMIT.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                Thread qThread = new Thread() {
+                    public void run() {
+                        String first, last, phone;
+                        String dl;
+                        ArrayList<String> err = new ArrayList<>();
+
+                        if (cFName.getText().length() == 0) {
+                            err.add("Field 'First Name' is empty");
+                            logger.log(Level.WARNING, "User submitted an empty field text (First Name)");
+                        }
+
+                        first = cFNameTF.getText();
+
+
+                        if (cLNameTF.getText().length() == 0) {
+                            err.add("Field 'Last Name' is empty");
+                            logger.log(Level.WARNING, "User submitted an empty field (Last Name)");
+
+                        }
+
+                        last = cLNameTF.getText();
+
+                        if (cPhoneTF.getText().length() == 0) {
+                            err.add("Field 'Phone Number' is empty");
+                            logger.log(Level.WARNING, "User submitted an empty field (Phone Number)");
+                        }
+
+                        phone = cPhoneTF.getText();
+
+                        if (cDLNTF.getText().length() == 0) {
+                            err.add("'Year' value is invalid");
+                            logger.log(Level.WARNING, "User submitted empty field (Year)");
+                        }
+
+                        try {
+                            dl = cDLNTF.getText();
+
+
+                            if (err.isEmpty()) {
+                                Customer newObj = new Customer(db.userIdCounter++, first, last, phone, dl);
+                                if (db.addUserDirectly(newObj)) {
+                                    Container frame = card1.getParent();
+                                    do {
+                                        frame = frame.getParent();
+                                    } while (!(frame instanceof JFrame));
+                                    JOptionPane.showMessageDialog(frame, "User has been successfully added!\n" +
+                                                    "You may continue to add users by pressing \"Ok\" \n" +
+                                                    "or you may exit from this operation by pressing \"Ok\" (in this window)\n" +
+                                                    "then \"Exit\" (in the 'Adding new user' window)",
+                                            "Success!", JOptionPane.INFORMATION_MESSAGE);
+                                    logger.log(Level.INFO, "New user added successfully");
+                                } else {
+                                    Container frame = card1.getParent();
+                                    do {
+                                        frame = frame.getParent();
+                                    } while (!(frame instanceof JFrame));
+                                    JOptionPane.showMessageDialog(frame, "addUserDirectly(User) method failed, " +
+                                                    "despite criteria being met. An unknown error has occurred!", "Failure!",
+                                            JOptionPane.ERROR_MESSAGE);
+                                    logger.log(Level.SEVERE, "addUserDirectly(User) failed");
+                                }
+                            } else {
+                                Container frame = card1.getParent();
+                                do {
+                                    frame = frame.getParent();
+                                } while (!(frame instanceof JFrame));
+                                for (String i : err) {
+                                    JOptionPane.showMessageDialog(frame, i, "Failure!", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                        catch (NumberFormatException e) {
+                            logger.log(Level.SEVERE, "User submitted non-integer values", e);
+                            e.printStackTrace();
+                        }
+                        catch (Exception e) {
+                            logger.log(Level.SEVERE, "Unknown exception thrown, refer to stack trace");
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                qThread.start();
+            }
+        });
+
+        cCLEAR.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                logger.log(Level.INFO, "User cleared the form");
+                cFNameTF.setText("");
+                cLNameTF.setText("");
+                cPhoneTF.setText("");
+                cDLNTF.setText("");
+            }
+        });
+
+        // Panel for adding a new Employee
+        JPanel card2 = new JPanel(new GridLayout(7,1,1,1)) {
+            public Dimension getPreferredSize() {
+                Dimension size = super.getPreferredSize();
+                size.width += extraWindowWidth;
+                return size;
+            }
+        };
+        JLabel eFName = new JLabel("First Name (String)");
+        JTextField eFNameTF = new JTextField("", 12);
+        card2.add(eFName);
+        card2.add(eFNameTF);
+        JLabel eLName = new JLabel("Last Name (String)");
+        JTextField eLNameTF = new JTextField("", 12);
+        card2.add(eLName);
+        card2.add(eLNameTF);
+        JLabel eSSN = new JLabel("Social Security Number (int)");
+        JTextField eSSNTF = new JTextField("", 12);
+        card2.add(eSSN);
+        card2.add(eSSNTF);
+        JLabel eSalary = new JLabel("Monthly Salary (float)");
+        JTextField eSalaryTF = new JTextField("", 12);
+        card2.add(eSalary);
+        card2.add(eSalaryTF);
+        JLabel eBAN = new JLabel("Bank Account # (int)");
+        JTextField eBANTF = new JTextField("", 12);
+        card2.add(eBAN);
+        card2.add(eBANTF);
+        JButton eSUBMIT = new JButton ("Submit");
+        card2.add(eSUBMIT);
+        JButton eCLEAR = new JButton("Clear");
+        card2.add(eCLEAR);
+        exitFromUser = new JButton("Exit");
+        card2.add(exitFromUser);
+
+        exitFromUser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                logger.log(Level.INFO, "User is exiting the add vehicle window");
+                Container frame = exitFrom.getParent();
+                do {
+                    frame = frame.getParent();
+                } while (!(frame instanceof JFrame));
+                ((JFrame) frame).dispose();
+            }
+        });
+
+        eSUBMIT.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                Thread qThread = new Thread() {
+                    public void run() {
+                        String first, last;
+                        int bank, SSN;
+                        float salary;
+                        ArrayList<String> err = new ArrayList<>();
+
+                        if (eFNameTF.getText().length() == 0) {
+                            err.add("Field 'First Name' is empty");
+                        }
+
+                        first = eFNameTF.getText();
+
+
+                        if (eLNameTF.getText().length() == 0) {
+                            err.add("Field 'Last Name' is empty");
+                        }
+
+                        last = eLNameTF.getText();
+
+                        if (eBANTF.getText().length() == 0) {
+                            err.add("Field 'Bank Account #' is empty");
+                        }
+                        else if (Integer.parseInt(eBANTF.getText()) < 0) {
+                            err.add("Bank account number cannot be a negative value");
+                        }
+
+                        bank = Integer.parseInt(eBANTF.getText());
+
+                        if (eSalaryTF.getText().length() == 0) {
+                            err.add("Field 'Monthly Salary' is empty");
+                        }
+                        else if (Float.parseFloat(eSalaryTF.getText()) < 0) {
+                            err.add("Monthly Salary cannot be a negative value");
+                        }
+
+                        salary = Float.parseFloat(eSalaryTF.getText());
+                        SSN = Integer.parseInt(eSSNTF.getText());
+
+                        if (err.isEmpty()) {
+                            Employee newObj = new Employee(db.userIdCounter++, first, last, SSN, salary, bank);
+                            if (db.addUserDirectly(newObj)) {
+                                Container frame = card2.getParent();
+                                do {
+                                    frame = frame.getParent();
+                                } while (!(frame instanceof JFrame));
+                                JOptionPane.showMessageDialog(frame, "User has been successfully added!\n" +
+                                                "You may continue to add users by pressing \"Ok\" \n" +
+                                                "or you may exit from this operation by pressing \"Ok\" (in this window)\n" +
+                                                "then \"Exit\" (in the 'Adding new user' window)",
+                                        "Success!", JOptionPane.INFORMATION_MESSAGE);
+                                logger.log(Level.INFO, "User successfully adds a new Employee");
+                            }
+                            else {
+                                Container frame = card2.getParent();
+                                do {
+                                    frame = frame.getParent();
+                                } while (!(frame instanceof JFrame));
+                                JOptionPane.showMessageDialog(frame, "addUserDirectly(User) method failed, " +
+                                                "despite criteria being met. An unknown error has occurred!", "Failure!",
+                                        JOptionPane.ERROR_MESSAGE);
+                                logger.log(Level.SEVERE, "Unable to add a new user despite criteria being met in addUserDirectly()");
+                            }
+                        }
+                        else {
+                            Container frame = card2.getParent();
+                            do {
+                                frame = frame.getParent();
+                            } while (!(frame instanceof JFrame));
+                            for (String i : err) {
+                                JOptionPane.showMessageDialog(frame, i, "Failure!", JOptionPane.ERROR_MESSAGE);
+                                logger.log(Level.WARNING, "Program displaying error message logs to user");
+                            }
+                        }
+                    }
+                };
+                qThread.start();
+            }
+        });
+
+        eCLEAR.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                logger.log(Level.INFO, "User has cleared the form");
+                eFNameTF.setText("");
+                eLNameTF.setText("");
+                eBANTF.setText("");
+                eSSNTF.setText("");
+                eSalaryTF.setText("");
+            }
+        });
+
+        tabbedPane.addTab(CUSTOMERPANEL, card1);
+        tabbedPane.addTab(EMPLOYEEPANEL, card2);
+
+        pane.add(tabbedPane, BorderLayout.WEST);
+    }
 
     /**
      * main() is the initializer and executes the GUI on an EDT as opposed to the main thread
