@@ -1214,6 +1214,7 @@ public class MainAppGUI extends JFrame {
                             try {
                                 // Adding package to the transaction store
                                 db.addShppingTransaction(CustomerID,EmployeeID,trackingNumber,today,today,price);
+                                db.deletePackage(trackingNumber);
 
                                 Container frame = pane.getParent();
 
