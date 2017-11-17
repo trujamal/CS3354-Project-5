@@ -16,13 +16,14 @@ import java.util.logging.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Formatter;
-
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
+h
 /**
  * @author Jamal Rasool (j_r771)
  * @author Zach Sotak (zs1046)
  * @version 1.0
+ *
  */
 
 public class MainAppGUI extends JFrame {
@@ -46,7 +47,6 @@ public class MainAppGUI extends JFrame {
     private JButton exitFrom,
             exitFromPackage,
             exitFromUser;
-
     /**
      * Default Constructor for class MainAppGUI
      */
@@ -65,7 +65,6 @@ public class MainAppGUI extends JFrame {
 
         /**
          * format() method overrides the superclass's method in order to obtain a much simpler output
-         *
          * @param record refers to the LogRecord to change
          * @return builder.toString(), the String which will be the new format for each log event
          */
@@ -82,7 +81,7 @@ public class MainAppGUI extends JFrame {
             return builder.toString();
         }
 
-        public String getHead(Handler h) {
+        public String getHead (Handler h) {
             return super.getHead(h);
         }
 
@@ -101,7 +100,8 @@ public class MainAppGUI extends JFrame {
             fh = new FileHandler("log.txt");
             fh.setFormatter(formatter);
             logger.addHandler(fh);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.log(Level.SEVERE, "FileHandler threw IOException", e);
         }
     }
@@ -109,7 +109,6 @@ public class MainAppGUI extends JFrame {
     /**
      * MainAppGUI is designed to set the information in each frame of the program, such as the title and the buttons
      * that are within the program.
-     *
      * @param title receives the name to set the window as.
      */
 
@@ -292,8 +291,8 @@ public class MainAppGUI extends JFrame {
                     public void run() {
                         try {
                             closeOP();
-                        } catch (Exception e) {
-                            logger.log(Level.SEVERE, e.toString());
+                        }catch (Exception e) {
+                            logger.log(Level.SEVERE,e.toString());
                             System.exit(0);
                         }
                     }
@@ -329,48 +328,50 @@ public class MainAppGUI extends JFrame {
     // Jamal
     public void displayInventoryUI() {
 
-        if (db.getPackageList().size() == 0) {
-            JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
-                            " is currently empty! Now exiting..", "Failure!",
-                    ERROR_MESSAGE);
-            logger.log(Level.WARNING, "User attempted to view an empty database");
-            return;
-        }
+      if (db.getPackageList().size() == 0) {
+          JOptionPane.showMessageDialog(null, "There is nothing to view as the database\n" +
+                          " is currently empty! Now exiting..", "Failure!",
+                  ERROR_MESSAGE);
+          logger.log(Level.WARNING, "User attempted to view an empty database");
+          return;
+      }
 
-        // Implement right header
-        String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
-        Object[][] data = new Object[db.getPackageList().size()][header.length];
-        try {
-            // Do something
-            for (int i = 0; i < db.getPackageList().size(); ++i) {
+      // Implement right header
+      String[] header = {"PACKAGE TYPE", "TRACKING #", "SPECIFICATION", "MAILING CLASS", "OTHER DETAILS"};
+      Object[][] data = new Object[db.getPackageList().size()][header.length];
+      try {
+          // Do something
+          for (int i = 0; i < db.getPackageList().size(); ++i) {
 
-                data[i][0] = db.getPackageList().get(i).getClass().getName();
-                data[i][1] = db.getPackageList().get(i).getPtn();
-                data[i][2] = db.getPackageList().get(i).getSpecification();
-                data[i][3] = db.getPackageList().get(i).getMailingClass();
-                data[i][4] = db.getPackageList().get(i).toString();
+              data[i][0] = db.getPackageList().get(i).getClass().getName();
+              data[i][1] = db.getPackageList().get(i).getPtn();
+              data[i][2] = db.getPackageList().get(i).getSpecification();
+              data[i][3] = db.getPackageList().get(i).getMailingClass();
+              data[i][4] = db.getPackageList().get(i).toString();
 
-            }
-        } catch (ClassCastException e) {
-            logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
-            e.printStackTrace();
-        }
+          }
+      }
+      catch (ClassCastException e) {
+          logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
+      }
+      catch (Exception e) {
+          logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
+          e.printStackTrace();
+      }
 
-        JFrame display = new JFrame("Inventory List");
-        final JTable table = new JTable(data, header);
-        table.setPreferredScrollableViewportSize(new Dimension(800, 100));
-        table.setFillsViewportHeight(true);
-        table.setEnabled(false);
+      JFrame display = new JFrame("Inventory List");
+      final JTable table = new JTable(data, header);
+      table.setPreferredScrollableViewportSize(new Dimension(800, 100));
+      table.setFillsViewportHeight(true);
+      table.setEnabled(false);
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        display.add(scrollPane);
+      JScrollPane scrollPane = new JScrollPane(table);
+      display.add(scrollPane);
 
-        display.pack();
-        display.setVisible(true);
-        display.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        logger.log(Level.INFO, "User in 'Package List' window");
+      display.pack();
+      display.setVisible(true);
+      display.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+      logger.log(Level.INFO, "User in 'Package List' window");
     }
 
     /**
@@ -378,18 +379,18 @@ public class MainAppGUI extends JFrame {
      */
     public void addPackageUI() {
         JFrame frame = new JFrame("Adding package");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+              frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         //Create and set up the content pane.
         MainAppGUI n = new MainAppGUI();
         n.newPanelComponentPackage(frame.getContentPane());
 
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
+              //Display the window.
+              frame.pack();
+              frame.setVisible(true);
 
-        // Setting up to print into the log
-        logger.log(Level.INFO, "User in 'Adding Package' window");
+              // Setting up to print into the log
+              logger.log(Level.INFO, "User in 'Adding Package' window");
     }
 
     /**
@@ -397,63 +398,64 @@ public class MainAppGUI extends JFrame {
      */
 
     public void deletePackageUI() {
-        JFrame frame = new JFrame("Deleting Packages");
+      JFrame frame = new JFrame("Deleting Packages");
 
-        if (db.getPackageList().size() == 0) {
-            JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
-                            " is currently empty! Now exiting removal process..", "Failure!",
-                    ERROR_MESSAGE);
-            logger.log(Level.WARNING, "User attempted to view an empty list (package list)");
-            return;
-        }
+      if (db.getPackageList().size() == 0) {
+          JOptionPane.showMessageDialog(frame, "There is nothing to delete as the database\n" +
+                          " is currently empty! Now exiting removal process..", "Failure!",
+                  ERROR_MESSAGE);
+          logger.log(Level.WARNING, "User attempted to view an empty list (package list)");
+          return;
+      }
 
-        JPanel panel = new JPanel();
-        JLabel instr = new JLabel("Enter the package number (to be deleted): ");
-        JTextField TI = new JTextField(12);
-        JButton submit = new JButton("Submit");
-        JButton exit = new JButton("Exit");
+      JPanel panel = new JPanel();
+      JLabel instr = new JLabel("Enter the package number (to be deleted): ");
+      JTextField TI = new JTextField(12);
+      JButton submit = new JButton("Submit");
+      JButton exit = new JButton("Exit");
 
-        frame.setContentPane(panel);
-        panel.add(instr);
-        panel.add(TI);
-        panel.add(submit);
-        panel.add(exit);
+      frame.setContentPane(panel);
+      panel.add(instr);
+      panel.add(TI);
+      panel.add(submit);
+      panel.add(exit);
 
-        submit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                logger.log(Level.INFO, "User submitted a Tracking number (string)");
-                Thread qThread = new Thread() {
-                    public void run() {
-                        if (db.deletePackage(TI.getText())) {
-                            JOptionPane.showMessageDialog(frame, "Removal was successful!", "Success!",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                            logger.log(Level.INFO, "User was able to remove a package via string value");
-                        } else {
-                            JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
-                                            " and try again!", "Failure!",
-                                    ERROR_MESSAGE);
-                            logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
-                                    "database");
-                        }
-                    }
-                };
-                qThread.start();
-            }
-        });
+      submit.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent ev) {
+              logger.log(Level.INFO, "User submitted a Tracking number (string)");
+              Thread qThread = new Thread() {
+                  public void run() {
+                      if (db.deletePackage(TI.getText())) {
+                          JOptionPane.showMessageDialog(frame, "Removal was successful!", "Success!",
+                                  JOptionPane.INFORMATION_MESSAGE);
+                          logger.log(Level.INFO, "User was able to remove a package via string value");
+                      }
+                      else {
+                          JOptionPane.showMessageDialog(frame, "Removal was unsuccessful! Please check your input" +
+                                          " and try again!", "Failure!",
+                                  ERROR_MESSAGE);
+                          logger.log(Level.INFO, "User's search term was not found, nothing removed from vehicle" +
+                                  "database");
+                      }
+                  }
+              };
+              qThread.start();
+          }
+      });
 
-        exit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ev) {
-                frame.dispose();
-                logger.log(Level.INFO, "User presses 'Exit' button");
-            }
-        });
+      exit.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent ev) {
+              frame.dispose();
+              logger.log(Level.INFO, "User presses 'Exit' button");
+          }
+      });
 
 
-        //Display the window.
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        logger.log(Level.INFO, "User opened up GUI option to delete a vehicle");
+      //Display the window.
+      frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+      frame.pack();
+      frame.setVisible(true);
+      logger.log(Level.INFO, "User opened up GUI option to delete a vehicle");
 
     }
 
@@ -502,7 +504,7 @@ public class MainAppGUI extends JFrame {
 
                                     System.out.println(trackingno.getText());
                                     System.out.println(db.getPackageList().get(i).ptn);
-                                    if (db.getPackageList().get(i).ptn.equals(trackingno.getText())) {
+                                    if(db.getPackageList().get(i).ptn.equals(trackingno.getText())){
                                         System.out.println("GO");
                                         data[i][0] = db.getPackageList().get(i).getClass().getName();
                                         data[i][1] = db.getPackageList().get(i).ptn;
@@ -513,9 +515,11 @@ public class MainAppGUI extends JFrame {
                                         break;
                                     }
                                 }
-                            } catch (ClassCastException e) {
+                            }
+                            catch (ClassCastException e) {
                                 logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e) {
                                 logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
                                 e.printStackTrace();
                             }
@@ -533,7 +537,9 @@ public class MainAppGUI extends JFrame {
                             logger.log(Level.INFO, "User in 'Package List' window");
 
 
-                        } else {
+
+                        }
+                        else {
                             JOptionPane.showMessageDialog(null, "Package not found in database");
                             logger.log(Level.INFO, "User's search term was not found in the" +
                                     "database");
@@ -550,6 +556,7 @@ public class MainAppGUI extends JFrame {
                 logger.log(Level.INFO, "User presses 'Exit' button");
             }
         });
+
 
 
         //Display the window.
@@ -580,9 +587,11 @@ public class MainAppGUI extends JFrame {
                 data[i][4] = db.getUserList().get(i).toString();
 
             }
-        } catch (ClassCastException e) {
+        }
+        catch (ClassCastException e) {
             logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
             e.printStackTrace();
         }
@@ -600,7 +609,6 @@ public class MainAppGUI extends JFrame {
         logger.log(Level.INFO, "User in 'User List' window");
 
     }
-
     // Zach
     public void addUserUI() {
         JFrame frame = new JFrame("Adding new user");
@@ -637,9 +645,11 @@ public class MainAppGUI extends JFrame {
                         if (db.getUserAtPosition(i).getId() == Integer.parseInt(entry.getText())) {
                             break;
                         }
-                    } catch (NumberFormatException e) {
+                    }
+                    catch (NumberFormatException e) {
                         logger.log(Level.SEVERE, "User submitted non-integer values", e);
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex) {
                         logger.log(Level.SEVERE, "Unknown exception occurred", ex);
                     }
                 }
@@ -649,8 +659,9 @@ public class MainAppGUI extends JFrame {
                             JOptionPane.ERROR_MESSAGE);
                     logger.log(Level.INFO, "User did not enter a valid ID#");
                     return;
-                } else {
-                    JPanel subpanel = new JPanel(new GridLayout(5, 1, 2, 5));
+                }
+                else {
+                    JPanel subpanel = new JPanel(new GridLayout(5,1,2,5));
                     JLabel first = new JLabel("First Name: ");
                     JTextField firstname = new JTextField(temp.getFirstName(), 12);
                     JLabel last = new JLabel("Last Name: ");
@@ -680,7 +691,8 @@ public class MainAppGUI extends JFrame {
                         subpanel.add(phoneNumb);
                         subpanel.add(uAdd);
                         subpanel.add(uAddress);
-                    } else {
+                    }
+                    else {
                         salaryTF.setText(Float.toString(((Employee) temp).getMonthlySalary()));
                         bankTF.setText(Integer.toString(((Employee) temp).getBankAccountNumber()));
                         type.setText("Type: Employee");
@@ -700,15 +712,16 @@ public class MainAppGUI extends JFrame {
                     frame.pack();
 
                     sub_submit.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent x) {
+                        public void actionPerformed (ActionEvent x) {
                             temp.setFirstName(firstname.getText());
                             temp.setLastName(lastname.getText());
                             if (temp instanceof Customer) {
-                                ((Customer) temp).setPhoneNumber(phoneNumb.getText());
-                                ((Customer) temp).setAddress((uAddress.getText()));
-                            } else {
-                                ((Employee) temp).setMonthlySalary(Float.parseFloat(salaryTF.getText()));
-                                ((Employee) temp).setBankAccountNumber(Integer.parseInt(bankTF.getText()));
+                                ((Customer)temp).setPhoneNumber(phoneNumb.getText());
+                                ((Customer)temp).setAddress((uAddress.getText()));
+                            }
+                            else {
+                                ((Employee)temp).setMonthlySalary(Float.parseFloat(salaryTF.getText()));
+                                ((Employee)temp).setBankAccountNumber(Integer.parseInt(bankTF.getText()));
                             }
                             JOptionPane.showMessageDialog(frame, "User has been successfully updated!", "Success!",
                                     JOptionPane.INFORMATION_MESSAGE);
@@ -765,9 +778,11 @@ public class MainAppGUI extends JFrame {
                 data[i][5] = db.getTransactionList().get(i).getPrice();
 
             }
-        } catch (ClassCastException e) {
+        }
+        catch (ClassCastException e) {
             logger.log(Level.SEVERE, "ClassCastException thrown, possible database corruption");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.log(Level.SEVERE, "Unknown exception thrown! See stack trace..", e);
             e.printStackTrace();
         }
@@ -790,7 +805,7 @@ public class MainAppGUI extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Panel for adding a new Customer
-        JPanel card1 = new JPanel(new GridLayout(6, 1, 1, 1)) {
+        JPanel card1 = new JPanel(new GridLayout(6,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -814,7 +829,7 @@ public class MainAppGUI extends JFrame {
         card1.add(cDLN);
         card1.add(cDLNTF);
 
-        JButton cSUBMIT = new JButton("Submit");
+        JButton cSUBMIT = new JButton ("Submit");
         card1.add(cSUBMIT);
         JButton cCLEAR = new JButton("Clear");
         card1.add(cCLEAR);
@@ -832,7 +847,7 @@ public class MainAppGUI extends JFrame {
         });
 
         cSUBMIT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 Thread qThread = new Thread() {
                     public void run() {
                         String first, last, phone;
@@ -903,10 +918,12 @@ public class MainAppGUI extends JFrame {
                                     JOptionPane.showMessageDialog(frame, i, "Failure!", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
-                        } catch (NumberFormatException e) {
+                        }
+                        catch (NumberFormatException e) {
                             logger.log(Level.SEVERE, "User submitted non-integer values", e);
                             e.printStackTrace();
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
                             logger.log(Level.SEVERE, "Unknown exception thrown, refer to stack trace");
                             e.printStackTrace();
                         }
@@ -927,7 +944,7 @@ public class MainAppGUI extends JFrame {
         });
 
         // Panel for adding a new Employee
-        JPanel card2 = new JPanel(new GridLayout(7, 1, 1, 1)) {
+        JPanel card2 = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -954,7 +971,7 @@ public class MainAppGUI extends JFrame {
         JTextField eBANTF = new JTextField("", 12);
         card2.add(eBAN);
         card2.add(eBANTF);
-        JButton eSUBMIT = new JButton("Submit");
+        JButton eSUBMIT = new JButton ("Submit");
         card2.add(eSUBMIT);
         JButton eCLEAR = new JButton("Clear");
         card2.add(eCLEAR);
@@ -973,7 +990,7 @@ public class MainAppGUI extends JFrame {
         });
 
         eSUBMIT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 Thread qThread = new Thread() {
                     public void run() {
                         String first, last;
@@ -996,7 +1013,8 @@ public class MainAppGUI extends JFrame {
 
                         if (eBANTF.getText().length() == 0) {
                             err.add("Field 'Bank Account #' is empty");
-                        } else if (Integer.parseInt(eBANTF.getText()) < 0) {
+                        }
+                        else if (Integer.parseInt(eBANTF.getText()) < 0) {
                             err.add("Bank account number cannot be a negative value");
                         }
 
@@ -1004,7 +1022,8 @@ public class MainAppGUI extends JFrame {
 
                         if (eSalaryTF.getText().length() == 0) {
                             err.add("Field 'Monthly Salary' is empty");
-                        } else if (Float.parseFloat(eSalaryTF.getText()) < 0) {
+                        }
+                        else if (Float.parseFloat(eSalaryTF.getText()) < 0) {
                             err.add("Monthly Salary cannot be a negative value");
                         }
 
@@ -1024,7 +1043,8 @@ public class MainAppGUI extends JFrame {
                                                 "then \"Exit\" (in the 'Adding new user' window)",
                                         "Success!", JOptionPane.INFORMATION_MESSAGE);
                                 logger.log(Level.INFO, "User successfully adds a new Employee");
-                            } else {
+                            }
+                            else {
                                 Container frame = card2.getParent();
                                 do {
                                     frame = frame.getParent();
@@ -1034,7 +1054,8 @@ public class MainAppGUI extends JFrame {
                                         JOptionPane.ERROR_MESSAGE);
                                 logger.log(Level.SEVERE, "Unable to add a new user despite criteria being met in addUserDirectly()");
                             }
-                        } else {
+                        }
+                        else {
                             Container frame = card2.getParent();
                             do {
                                 frame = frame.getParent();
@@ -1115,60 +1136,58 @@ public class MainAppGUI extends JFrame {
         });
 
         cSUBMIT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Thread qThread = new Thread() {
-                    public void run() {
-                        int CustomerID, EmployeeID;
-                        String trackingNumber;
-                        float price;
+                                      public void actionPerformed(ActionEvent e) {
+                                          Thread qThread = new Thread() {
+                                              public void run() {
+                                                  int CustomerID, EmployeeID;
+                                                  String trackingNumber;
+                                                  float price;
 
-                        ArrayList<String> err = new ArrayList<>();
+                                                  ArrayList<String> err = new ArrayList<>();
 
-                        if (cFName.getText().length() == 0) {
-                            err.add("Field 'CustomerID' is empty");
-                            logger.log(Level.WARNING, "User submitted an empty field text (CustomerID)");
-                        }
+                                                  if (cFName.getText().length() == 0) {
+                                                      err.add("Field 'CustomerID' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field text (CustomerID)");
+                                                  }
 
-                        CustomerID = Integer.parseInt(cFNameTF.getText());
-
-
-                        if (cLNameTF.getText().length() == 0) {
-                            err.add("Field 'EmployeeID' is empty");
-                            logger.log(Level.WARNING, "User submitted an empty field (EmployeeID)");
-
-                        }
-
-                        EmployeeID = Integer.parseInt(cLNameTF.getText());
-
-                        if (cPhoneTF.getText().length() == 0) {
-                            err.add("Field 'Tracking #' is empty");
-                            logger.log(Level.WARNING, "User submitted an empty field (Tracking #)");
-                        }
-
-                        trackingNumber = cPhoneTF.getText();
-
-                        if (cDLNTF.getText().length() == 0) {
-                            err.add("'Price' value is invalid");
-                            logger.log(Level.WARNING, "User submitted empty field (Price)");
-                        }
-
-                        price = Float.parseFloat(cDLNTF.getText());
+                                                  CustomerID = Integer.parseInt(cFNameTF.getText());
 
 
-                    }
-                };
-            }
-        });
-        tabbedPane.add(card1);
+                                                  if (cLNameTF.getText().length() == 0) {
+                                                      err.add("Field 'EmployeeID' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field (EmployeeID)");
+
+                                                  }
+
+                                                  EmployeeID = Integer.parseInt(cLNameTF.getText());
+
+                                                  if (cPhoneTF.getText().length() == 0) {
+                                                      err.add("Field 'Tracking #' is empty");
+                                                      logger.log(Level.WARNING, "User submitted an empty field (Tracking #)");
+                                                  }
+
+                                                  trackingNumber = cPhoneTF.getText();
+
+                                                  if (cDLNTF.getText().length() == 0) {
+                                                      err.add("'Price' value is invalid");
+                                                      logger.log(Level.WARNING, "User submitted empty field (Price)");
+                                                  }
+
+                                                  price = Float.parseFloat(cDLNTF.getText());
+
+
+                                              }
+                                          };
+                                      }
+                                  });
         pane.add(tabbedPane, BorderLayout.WEST);
     }
 
     /**
      * main() is the initializer and executes the GUI on an EDT as opposed to the main thread
-     *
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main (String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainAppGUI execute = new MainAppGUI("Shipping Store Management Software");
             execute.setVisible(true);
@@ -1178,11 +1197,10 @@ public class MainAppGUI extends JFrame {
     /**
      * The function ClosesOP is designed to close out of the program, and save the information that was changed or
      * modified within the program into a serializable fil.
-     *
      * @return returns value of 3 to close the program, this should never return a value, if it does a SEVERE error has
      * occurred.
      * @throws Exception The exception in this case is to handle if the closing of the program fails and, allows the
-     *                   program to still run.
+     * program to still run.
      */
     public int closeOP() throws Exception {
         try {
@@ -1191,23 +1209,22 @@ public class MainAppGUI extends JFrame {
 
             System.exit(0);
             return JFrame.EXIT_ON_CLOSE;
-        } catch (Exception e) {
+        } catch (Exception e){
             System.out.println("PROGRAM SHOULD NEVER REACH THIS POINT UNDERNEATH ANY CIRCUMSTANCE");
-            logger.log(Level.SEVERE, e.toString());
+            logger.log(Level.SEVERE,e.toString());
         }
         return JFrame.EXIT_ON_CLOSE;
     }
 
     /**
      * Implementing adding a new package interface
-     *
      * @param pane
      */
     public void newPanelComponentPackage(Container pane) {
         JTabbedPane tabbedPane = new JTabbedPane();
 
         // Panel for adding a new package
-        JPanel envelopeTab = new JPanel(new GridLayout(7, 1, 1, 1)) {
+        JPanel envelopeTab = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -1246,7 +1263,7 @@ public class MainAppGUI extends JFrame {
         envelopeTab.add(widthINPUT);
 
         // Submit User Action field
-        JButton envelopeSubmit = new JButton("Submit");
+        JButton envelopeSubmit = new JButton ("Submit");
         envelopeTab.add(envelopeSubmit);
 
         // Clear all Fields Button
@@ -1271,7 +1288,7 @@ public class MainAppGUI extends JFrame {
 
         // Handling the button to add to the shippingStore
         envelopeSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 {
                     Thread qThread = new Thread() {
                         public void run() {
@@ -1386,7 +1403,7 @@ public class MainAppGUI extends JFrame {
         });
 
         // Panel for adding a new motorcycle
-        JPanel boxTab = new JPanel(new GridLayout(7, 1, 1, 1)) {
+        JPanel boxTab = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -1420,7 +1437,7 @@ public class MainAppGUI extends JFrame {
         boxTab.add(bVolume);
         boxTab.add(bVolumeT);
 
-        JButton bSubmit = new JButton("Submit");
+        JButton bSubmit = new JButton ("Submit");
         boxTab.add(bSubmit);
         JButton bClear = new JButton("Clear");
         boxTab.add(bClear);
@@ -1441,7 +1458,7 @@ public class MainAppGUI extends JFrame {
 
         // Adding a box to the package store
         bSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 Thread qThread = new Thread() {
                     public void run() {
 
@@ -1453,10 +1470,12 @@ public class MainAppGUI extends JFrame {
                         if (bTrackInput.getText().length() == 0) {
                             err.add("Field 'Tracking number' is empty");
                             logger.log(Level.WARNING, "User submitted empty field, tracking number");
-                        } else if (bTrackInput.getText().length() != 5) {
+                        }
+                        else if (bTrackInput.getText().length() != 5) {
                             err.add("'tracking number' length is not 5 characters!");
                             logger.log(Level.WARNING, "User submitted tracking number that is wrong length");
-                        } else if (db.packageExists(bTrackInput.getText())) {
+                        }
+                        else if (db.packageExists(bTrackInput.getText())) {
                             err.add("'VIN' already exists in the database!");
                             logger.log(Level.WARNING, "Vehicle already exists, invalid VIN to add");
                         }
@@ -1480,7 +1499,8 @@ public class MainAppGUI extends JFrame {
                         if (bDimensionT.getText().length() == 0) {
                             err.add("'Dimension' value is empty");
                             logger.log(Level.WARNING, "Dimension field is empty");
-                        } else if (Integer.parseInt(bDimensionT.getText()) < 0) {
+                        }
+                        else if (Integer.parseInt(bDimensionT.getText()) < 0) {
                             err.add("'Year' cannot be a negative value");
                             logger.log(Level.WARNING, "User submitted negative value");
                         }
@@ -1490,7 +1510,8 @@ public class MainAppGUI extends JFrame {
                         if (bVolumeT.getText().length() == 0) {
                             err.add("Field 'Volume' is empty");
                             logger.log(Level.WARNING, "User submitted field that is empty, volume");
-                        } else if (Integer.parseInt(bVolumeT.getText()) < 0) {
+                        }
+                        else if (Integer.parseInt(bVolumeT.getText()) < 0) {
                             err.add("'Volume' cannot be a negative value");
                             logger.log(Level.WARNING, "User submitted a negative value for volume");
                         }
@@ -1498,7 +1519,7 @@ public class MainAppGUI extends JFrame {
                         volume = Integer.parseInt(bVolumeT.getText());
 
                         if (err.isEmpty()) {
-                            db.addBox(tracking, specification, mailing, dimension, volume);
+                            db.addBox(tracking,specification,mailing,dimension,volume);
 
                             if (db.findPackage(tracking).ptn == tracking) {
                                 Container frame = boxTab.getParent();
@@ -1508,7 +1529,8 @@ public class MainAppGUI extends JFrame {
                                 JOptionPane.showMessageDialog(frame, "Box has been successfully added!\n",
                                         "Success!", JOptionPane.INFORMATION_MESSAGE);
                                 logger.log(Level.INFO, "Box object added successfully!");
-                            } else {
+                            }
+                            else {
                                 Container frame = boxTab.getParent();
                                 do {
                                     frame = frame.getParent();
@@ -1518,7 +1540,8 @@ public class MainAppGUI extends JFrame {
                                         JOptionPane.ERROR_MESSAGE);
                                 logger.log(Level.INFO, "box failed unexpectedly");
                             }
-                        } else {
+                        }
+                        else {
                             Container frame = boxTab.getParent();
                             do {
                                 frame = frame.getParent();
@@ -1546,7 +1569,7 @@ public class MainAppGUI extends JFrame {
         });
 
         // Panel for adding a new truck
-        JPanel cratePanel = new JPanel(new GridLayout(7, 1, 1, 1)) {
+        JPanel cratePanel = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -1580,7 +1603,7 @@ public class MainAppGUI extends JFrame {
         cratePanel.add(cContentINPUT);
 
 
-        JButton cSUBMIT = new JButton("Submit");
+        JButton cSUBMIT = new JButton ("Submit");
         cratePanel.add(cSUBMIT);
         JButton cCLEAR = new JButton("Clear");
         cratePanel.add(cCLEAR);
@@ -1588,7 +1611,7 @@ public class MainAppGUI extends JFrame {
         cratePanel.add(exitFromPackage);
 
         cSUBMIT.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 Thread qThread = new Thread() {
                     public void run() {
 
@@ -1600,10 +1623,12 @@ public class MainAppGUI extends JFrame {
                         if (cTrackINPUT.getText().length() == 0) {
                             err.add("Field 'tracking number' is empty");
                             logger.log(Level.WARNING, "Submission of empty field attempted");
-                        } else if (cTrackINPUT.getText().length() != 5) {
+                        }
+                        else if (cTrackINPUT.getText().length() != 5) {
                             err.add("'tracking number' length is needs to be 5!");
                             logger.log(Level.WARNING, "Number is not 5 bad");
-                        } else if (db.packageExists(cTrackINPUT.getText())) {
+                        }
+                        else if (db.packageExists(cTrackINPUT.getText())) {
                             err.add("'tracking number' already exists in the database!");
                             logger.log(Level.WARNING, "tracking# already exists");
                         }
@@ -1627,7 +1652,8 @@ public class MainAppGUI extends JFrame {
                         if (Float.parseFloat(cWeightINPUT.getText()) < 0) {
                             err.add("'Weight' cannot be a negative value");
                             logger.log(Level.WARNING, "Year cannot be negative");
-                        } else if (cWeightINPUT.getText().length() < 1) {
+                        }
+                        else if (cWeightINPUT.getText().length() < 1) {
                             err.add("'Weight' is not within the acceptable range");
                             logger.log(Level.WARNING, "Not within acceptable range for weight");
                         }
@@ -1642,7 +1668,7 @@ public class MainAppGUI extends JFrame {
                         content = cContentINPUT.getText();
 
                         if (err.isEmpty()) {
-                            db.addCrate(tracking, spec, mailing, weight, content);
+                            db.addCrate(tracking,spec,mailing,weight,content);
                             if (db.findPackage(tracking).ptn.matches(tracking)) {
                                 Container frame = cratePanel.getParent();
                                 do {
@@ -1651,7 +1677,8 @@ public class MainAppGUI extends JFrame {
                                 JOptionPane.showMessageDialog(frame, "Crate has been successfully added!\n",
                                         "Success!", JOptionPane.INFORMATION_MESSAGE);
                                 logger.log(Level.INFO, "User added a crate object successfully");
-                            } else {
+                            }
+                            else {
                                 Container frame = cratePanel.getParent();
                                 do {
                                     frame = frame.getParent();
@@ -1661,7 +1688,8 @@ public class MainAppGUI extends JFrame {
                                         JOptionPane.ERROR_MESSAGE);
                                 logger.log(Level.SEVERE, "crate failed");
                             }
-                        } else {
+                        }
+                        else {
                             Container frame = cratePanel.getParent();
                             do {
                                 frame = frame.getParent();
@@ -1686,7 +1714,7 @@ public class MainAppGUI extends JFrame {
             }
         });
 
-        JPanel drumPanel = new JPanel(new GridLayout(7, 1, 1, 1)) {
+        JPanel drumPanel = new JPanel(new GridLayout(7,1,1,1)) {
             public Dimension getPreferredSize() {
                 Dimension size = super.getPreferredSize();
                 size.width += extraWindowWidth;
@@ -1719,7 +1747,7 @@ public class MainAppGUI extends JFrame {
         drumPanel.add(drumDiameter);
         drumPanel.add(drumDiameterINPUT);
 
-        JButton drumSubmit = new JButton("Submit");
+        JButton drumSubmit = new JButton ("Submit");
         drumPanel.add(drumSubmit);
 
         JButton drumClear = new JButton("Clear");
@@ -1727,6 +1755,7 @@ public class MainAppGUI extends JFrame {
 
         exitFromPackage = new JButton("Exit");
         drumPanel.add(exitFromPackage);
+
 
 
         exitFromPackage.addActionListener(new ActionListener() {
@@ -1740,7 +1769,7 @@ public class MainAppGUI extends JFrame {
         });
 
         drumSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed (ActionEvent e) {
                 Thread qThread = new Thread() {
                     public void run() {
 
@@ -1752,10 +1781,12 @@ public class MainAppGUI extends JFrame {
                         if (dTrackingINPUT.getText().length() == 0) {
                             err.add("Field 'Tracking number' is empty");
                             logger.log(Level.WARNING, "Submission of empty field attempted");
-                        } else if (dTrackingINPUT.getText().length() != 5) {
+                        }
+                        else if (dTrackingINPUT.getText().length() != 5) {
                             err.add("'Tracking number' length is needs to be 5!");
                             logger.log(Level.WARNING, "Number is not 5 bad!!!!!!!!!!!");
-                        } else if (db.packageExists(dTrackingINPUT.getText())) {
+                        }
+                        else if (db.packageExists(dTrackingINPUT.getText())) {
                             err.add("'tracking number' already exists in the database!");
                             logger.log(Level.WARNING, "tracking# already exists");
                         }
@@ -1777,14 +1808,14 @@ public class MainAppGUI extends JFrame {
                         mailing = drumMailingINPUT.getText();
 
 
-                        if (drumMaterialINPUT.getText().length() == 0) {
+                        if(drumMaterialINPUT.getText().length() == 0) {
                             err.add("Field is empty");
                             logger.log(Level.WARNING, "Empty field detected");
                         }
 
                         material = drumMaterialINPUT.getText();
 
-                        if (drumDiameterINPUT.getText().length() == 0) {
+                        if(drumDiameterINPUT.getText().length() == 0) {
                             err.add("Field is empty");
                             logger.log(Level.WARNING, "Empty field detected");
                         } else if (Float.parseFloat(drumDiameterINPUT.getText()) <= 0) {
@@ -1795,7 +1826,7 @@ public class MainAppGUI extends JFrame {
                         diameter = Float.parseFloat(drumDiameterINPUT.getText());
 
                         if (err.isEmpty()) {
-                            db.addDrum(tracking, spec, mailing, material, diameter);
+                            db.addDrum(tracking,spec,mailing,material,diameter);
                             if (db.findPackage(tracking).ptn.matches(tracking)) {
                                 Container frame = drumPanel.getParent();
                                 do {
@@ -1804,7 +1835,8 @@ public class MainAppGUI extends JFrame {
                                 JOptionPane.showMessageDialog(frame, "Drum has been successfully added!\n",
                                         "Success!", JOptionPane.INFORMATION_MESSAGE);
                                 logger.log(Level.INFO, "User added a drum object successfully");
-                            } else {
+                            }
+                            else {
                                 Container frame = drumPanel.getParent();
                                 do {
                                     frame = frame.getParent();
@@ -1814,7 +1846,8 @@ public class MainAppGUI extends JFrame {
                                         JOptionPane.ERROR_MESSAGE);
                                 logger.log(Level.SEVERE, "drum critically failed");
                             }
-                        } else {
+                        }
+                        else {
                             Container frame = drumPanel.getParent();
                             do {
                                 frame = frame.getParent();
