@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.logging.Formatter;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
-h
 /**
  * @author Jamal Rasool (j_r771)
  * @author Zach Sotak (zs1046)

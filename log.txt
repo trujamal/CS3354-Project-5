@@ -1,10 +1,18 @@
-16/11/2017 06:24:27.272 - [MainAppGUI.<init>] :
+16/11/2017 06:26:32.160 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-16/11/2017 06:24:29.962 - [MainAppGUI$8.actionPerformed] :
-	[INFO] - User pressed 'Update user info'
-16/11/2017 06:24:30.049 - [MainAppGUI.deliverPackageUI] :
-	[INFO] - User has entered 'Deliver Package'.
-16/11/2017 06:24:44.459 - [MainAppGUI$10.actionPerformed] :
+16/11/2017 06:26:35.637 - [MainAppGUI$1.actionPerformed] :
+	[INFO] - User pressed 'Show all existing packages in database'
+16/11/2017 06:26:35.720 - [MainAppGUI.displayInventoryUI] :
+	[INFO] - User in 'Package List' window
+16/11/2017 06:26:39.035 - [MainAppGUI$5.actionPerformed] :
+	[INFO] - User pressed 'Show list of users'
+16/11/2017 06:26:39.098 - [MainAppGUI.listUsersUI] :
+	[INFO] - User in 'User List' window
+16/11/2017 06:26:43.375 - [MainAppGUI$9.actionPerformed] :
+	[INFO] - User pressed 'Show a list of completed shipping transactions'
+16/11/2017 06:26:43.432 - [MainAppGUI.showAllCompletedTransactionsUI] :
+	[INFO] - User in 'All Transaction List' window
+16/11/2017 06:26:46.169 - [MainAppGUI$10.actionPerformed] :
 	[INFO] - User pressed 'Exit program'
-16/11/2017 06:24:44.473 - [MainAppGUI.closeOP] :
+16/11/2017 06:26:46.185 - [MainAppGUI.closeOP] :
 	[INFO] - User has closed the program via 'Exit' in main menu, exit successful!
