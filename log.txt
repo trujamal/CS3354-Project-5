@@ -1,32 +1,10 @@
-17/11/2017 12:05:49.228 - [MainAppGUI.<init>] :
+20/11/2017 09:02:45.736 - [MainAppGUI.<init>] :
 	[INFO] - User has loaded main menu of GUI
-17/11/2017 12:05:57.359 - [MainAppGUI$1.actionPerformed] :
+20/11/2017 09:02:54.511 - [MainAppGUI$1.actionPerformed] :
 	[INFO] - User pressed 'Show all existing packages in database'
-17/11/2017 12:05:57.510 - [MainAppGUI.displayInventoryUI] :
+20/11/2017 09:02:54.735 - [MainAppGUI.displayInventoryUI] :
 	[INFO] - User in 'Package List' window
-17/11/2017 12:06:05.693 - [MainAppGUI$9.actionPerformed] :
-	[INFO] - User pressed 'Show a list of completed shipping transactions'
-17/11/2017 12:06:05.851 - [MainAppGUI.showAllCompletedTransactionsUI] :
-	[INFO] - User in 'All Transaction List' window
-17/11/2017 12:06:11.004 - [MainAppGUI$1.actionPerformed] :
-	[INFO] - User pressed 'Show all existing packages in database'
-17/11/2017 12:06:11.090 - [MainAppGUI.displayInventoryUI] :
-	[INFO] - User in 'Package List' window
-17/11/2017 12:06:24.967 - [MainAppGUI$3.actionPerformed] :
-	[INFO] - User pressed 'Delete a package from the database'
-17/11/2017 12:06:25.066 - [MainAppGUI.deletePackageUI] :
-	[INFO] - User opened up GUI option to delete a package
-17/11/2017 12:06:30.933 - [MainAppGUI$11.actionPerformed] :
-	[INFO] - User submitted a Tracking number (string)
-17/11/2017 12:06:32.001 - [MainAppGUI$11$1.run] :
-	[INFO] - User was able to remove a package via string value
-17/11/2017 12:06:33.002 - [MainAppGUI$12.actionPerformed] :
-	[INFO] - User presses 'Exit' button
-17/11/2017 12:06:35.669 - [MainAppGUI$1.actionPerformed] :
-	[INFO] - User pressed 'Show all existing packages in database'
-17/11/2017 12:06:35.778 - [MainAppGUI.displayInventoryUI] :
-	[INFO] - User in 'Package List' window
-17/11/2017 12:06:40.996 - [MainAppGUI$10.actionPerformed] :
+20/11/2017 09:03:56.068 - [MainAppGUI$10.actionPerformed] :
 	[INFO] - User pressed 'Exit program'
-17/11/2017 12:06:41.004 - [MainAppGUI.closeOP] :
+20/11/2017 09:03:56.079 - [MainAppGUI.closeOP] :
 	[INFO] - User has closed the program via 'Exit' in main menu, exit successful!

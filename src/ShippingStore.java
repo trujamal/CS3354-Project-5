@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 
 /**
- * This class represents a car dealership software, providing some basic
+ * This class represents a shipping store software, providing some basic
  * operations.
  *
- * @author Junye Wen
+ * @author Jamal Rasool and Zach Sotak
  */
 public class ShippingStore {
 

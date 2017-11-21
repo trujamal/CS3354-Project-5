@@ -11,7 +11,7 @@ import java.io.Serializable;
  * shipping store. This class is expected to be inherited by subclasses
  * that specify the package type. No instance of this class can be created.
  * 
- * @author Junye Wen
+ * @author Jamal Rasool and Zach Sotak
  */
 public abstract class Package implements Serializable {
 

@@ -6,7 +6,7 @@
 
 /**
  * Box class is a child class of Package
- * @author Junye Wen
+ * @author Jamal Rasool and Zack Sotak
  */
 public class Box extends Package {
 

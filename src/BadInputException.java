@@ -6,7 +6,7 @@
 
 /**
  * Custom Exception type, used to report bad input from user.
- * @author Junye Wen
+ * @author Jamal Rasool and Zach Sotak
  */
 public class BadInputException extends Exception {
 

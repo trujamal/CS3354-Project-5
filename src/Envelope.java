@@ -6,7 +6,7 @@
 
 /**
  * Envelope is a subclass of Package
- * @author Junye Wen
+ * @author Jamal Rasool and Zach Sotak
  */
 public class Envelope extends Package {
 

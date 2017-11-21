@@ -6,8 +6,8 @@
 
 
 /**
- *
- * @author Junye Wen
+ * Designed to hold the customer class of information
+ * @author Jamal Rasool
  */
 public class Customer extends User {
     private String phoneNumber;

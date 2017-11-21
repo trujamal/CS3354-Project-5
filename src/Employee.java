@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Employee is a subclass of User
- * @author Junye Wen
+ * @author Jamal Rasool and Zach Sotak
  */
 public class Employee extends User {
     private int socialSecurityNumber;
